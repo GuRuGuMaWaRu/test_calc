@@ -11,12 +11,25 @@ class Calculator extends Component {
     };
   }
 
-  handleClick = (event) => {
+  handleClick = event => {
     let value = event.target.textContent;
     this.concatenation(value);
   }
 
-  concatenation = (value) => {
+  handleDelete = () => {
+    let prevInput = this.state.input,
+        len = prevInput.length - 1;
+
+    function filter(item, index) {
+      return index !== len;
+    }
+
+    this.setState({
+      input: prevInput.filter(filter)
+    });
+  }
+
+  concatenation = value => {
     this.setState((prevState, props) => ({
       input: prevState.input.concat(value)
     }));
@@ -42,6 +55,7 @@ class Calculator extends Component {
         </div>
         <div>
           <h4>Buttons</h4>
+          <button onClick={this.handleDelete}>Delete</button>
           <div>
             {keypad}
           </div>
