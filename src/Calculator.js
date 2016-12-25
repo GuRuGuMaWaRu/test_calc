@@ -13,35 +13,28 @@ class Calculator extends Component {
 
   handleClick = (event) => {
     let value = event.target.textContent;
-
     this.concatenation(value);
   }
 
   concatenation = (value) => {
-    // let input = this.state.input;
-
     this.setState((prevState, props) => ({
       input: prevState.input.concat(value)
     }));
-
-    console.log(this.state.input);
-
-    // this.setState((prevState, props) => ({
-    //   input: input.push(value)
-    // }));
   }
 
   render() {
     let keypad = this.state.buttons.map(button => {
-      return <CalcButton key={button} value={button} onClick={this.handleClick}></CalcButton>;
-    });
+          return <CalcButton key={button} value={button} onClick={this.handleClick}></CalcButton>;
+        }),
+        number = +this.state.input.join(''),
+        result = number.toLocaleString();
 
     return (
       <div>
         <div>
           <h4>Display</h4>
           <div className="Display">
-            {this.state.input}
+            {result}
           </div>
         </div>
         <div>
