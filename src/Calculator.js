@@ -7,6 +7,7 @@ class Calculator extends Component {
     super(props);
     this.state = {
       input: [],
+      newInput: [[12],[23]],
       buttons: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '+']
     };
   }
@@ -14,9 +15,22 @@ class Calculator extends Component {
   handleClick = event => {
     let value = event.target.textContent;
 
-    this.setState(prevState => ({
-      input: prevState.input.concat(value)
-    }));
+    // testing new ways!!! ///////////////////////////////
+    let newInput = this.state.newInput;
+    let dump = [];
+
+    if (newInput.length !== 0) {
+      dump = newInput.splice(-1, 1);
+      dump += value;
+      console.log(dump);
+    }
+    ///////////////////////////////////////////////////////
+
+    if (/\d/.test(value) || this.state.input.length > 0) {
+      this.setState(prevState => ({
+        input: prevState.input.concat(value)
+      }));
+    }
   }
 
   handleDelete = () => {
