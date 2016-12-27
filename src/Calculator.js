@@ -7,13 +7,16 @@ class Calculator extends Component {
     super(props);
     this.state = {
       input: [],
-      buttons: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+      buttons: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '+']
     };
   }
 
   handleClick = event => {
     let value = event.target.textContent;
-    this.concatenation(value);
+
+    this.setState(prevState => ({
+      input: prevState.input.concat(value)
+    }));
   }
 
   handleDelete = () => {
@@ -29,25 +32,44 @@ class Calculator extends Component {
     });
   }
 
-  concatenation = value => {
-    this.setState((prevState, props) => ({
-      input: prevState.input.concat(value)
-    }));
+  display = () => {
+    let input = this.state.input,
+        display = '',
+        tmpDisplay = '';
+
+    function addNumber(finalNum, tmpNum) {
+      tmpNum = Number.parseInt(tmpNum, 10);
+      return finalNum += tmpNum.toLocaleString();
+    }
+
+    for (let i = 0, len = input.length; i < len; i++) {
+      if (/\d/.test(input[i])) {
+        tmpDisplay += input[i];
+      } else {
+        display = addNumber(display, tmpDisplay);
+        display += input[i];
+        tmpDisplay = '';
+      }
+    }
+
+    if (/\d/.test(tmpDisplay)) {
+      display = addNumber(display, tmpDisplay);
+    }
+
+    return display;
   }
 
   render() {
     let keypad = this.state.buttons.map(button => {
           return <CalcButton key={button} value={button} onClick={this.handleClick}></CalcButton>;
-        }),
-        number = +this.state.input.join(''),
-        result = number.toLocaleString();
+        });
 
     return (
       <div>
         <div>
           <h4>Display</h4>
           <div className="Display">
-            {result}
+            {this.display()}
           </div>
         </div>
         <div>
