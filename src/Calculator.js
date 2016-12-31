@@ -9,7 +9,7 @@ class Calculator extends Component {
       firstNum: '',
       operator: '',
       secondNum: '',
-      buttons: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '+']
+      buttons: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '+', '-', '*', '/']
     };
   }
 
@@ -34,9 +34,18 @@ class Calculator extends Component {
 
   calculateResults = () => {
     if (this.state.secondNum.length > 0) {
+      const firstNumber = Number.parseInt(this.state.firstNum, 10),
+            secondNumber = Number.parseInt(this.state.secondNum, 10);
+
       switch(this.state.operator) {
         case '+':
-          return Number.parseInt(this.state.firstNum, 10) + Number.parseInt(this.state.secondNum, 10);
+          return firstNumber + secondNumber;
+        case '-':
+          return firstNumber - secondNumber;
+        case '*':
+          return firstNumber * secondNumber;
+        case '/':
+          return firstNumber / secondNumber;
         default:
           return '';
       }
