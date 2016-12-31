@@ -9,14 +9,6 @@ class Calculator extends Component {
       firstNum: '',
       operator: '',
       secondNum: '',
-      // input: [],
-      // currentInput: [],
-      // newInput: [['125'],['+'],['456']],
-      // newInput2: [],
-      // newInput3: '',
-      // firstNumber: '',
-      // operator: '',
-      // secondNumber: '',
       buttons: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '+']
     };
   }
@@ -25,38 +17,30 @@ class Calculator extends Component {
   handleClick = event => {
     let value = event.target.textContent;
 
-    if (this.state.operator === '') {
+    if (/\d/.test(value) && this.state.operator === '') {
       this.setState(prevState => ({
         firstNum: prevState.firstNum + value
       }));
+    } else if (!/\d/.test(value) && this.state.firstNum.length > 0) {
+      this.setState({
+        operator: value
+      });
+    } else if (/\d/.test(value)) {
+      this.setState(prevState => ({
+        secondNum: prevState.secondNum + value
+      }));
     }
-    // let currentInput = this.state.newInput2.length > 0 ? this.state.newInput.pop() : [];
-    //
-    // if (this.state.newInput2.length > 0) {
-    //   currentInput = this.state.newInput2.pop();
-    // }
-    //
-    // this.setState(prevState => ({
-    //   newInput3: prevState.newInput3 + value
-    // }));
+  }
 
-    // testing new ways!!! ///////////////////////////////
-    // let newInput = this.state.newInput;
-    // let dump = [];
-    //
-    // if (newInput.length !== 0) {
-    //   dump = newInput.splice(-1, 1);
-    //   dump += value;
-    //   newInput = newInput.concat(dump);
-    //   console.log(newInput);
-    // }
-    ///////////////////////////////////////////////////////
-
-    // if (/\d/.test(value) || this.state.input.length > 0) {
-    //   this.setState(prevState => ({
-    //     input: prevState.input.concat(value)
-    //   }));
-    // }
+  calculateResults = () => {
+    if (this.state.secondNum.length > 0) {
+      switch(this.state.operator) {
+        case '+':
+          return Number.parseInt(this.state.firstNum, 10) + Number.parseInt(this.state.secondNum, 10);
+        default:
+          return '';
+      }
+    }
   }
 
   handleDelete = () => {
@@ -122,7 +106,10 @@ class Calculator extends Component {
         <div>
           <h4>Display</h4>
           <div className="Display">
-            {/* {this.display()} */}
+            {this.state.firstNum + this.state.operator + this.state.secondNum}
+          </div>
+          <div className="Results">
+            {this.calculateResults()}
           </div>
         </div>
         <div>
