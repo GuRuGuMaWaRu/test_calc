@@ -53,62 +53,28 @@ class Calculator extends Component {
   }
 
   handleDelete = () => {
-    // let prevInput = this.state.input,
-    //     len = prevInput.length - 1;
-    //
-    // function filter(item, index) {
-    //   return index !== len;
-    // }
-    //
-    // this.setState({
-    //   input: prevInput.filter(filter)
-    // });
+    if (this.state.secondNum.length > 0) {
+      this.setState(prevState => ({
+        secondNum: prevState.secondNum.slice(0, -1)
+      }));
+    } else if (this.state.operator.length > 0) {
+      this.setState({
+        operator: ''
+      });
+    } else if (this.state.firstNum.length > 0) {
+      this.setState(prevState => ({
+        firstNum: prevState.firstNum.slice(0, -1)
+      }));
+    }
   }
 
   display = () => {
-    // let input = this.state.input,
-    //     display = '',
-    //     tmpDisplay = '';
-    //
-    // function addNumber(finalNum, tmpNum) {
-    //   tmpNum = Number.parseInt(tmpNum, 10);
-    //   return finalNum += tmpNum.toLocaleString();
-    // }
-    //
-    // for (let i = 0, len = input.length; i < len; i++) {
-    //   if (/\d/.test(input[i])) {
-    //     tmpDisplay += input[i];
-    //   } else {
-    //     display = addNumber(display, tmpDisplay);
-    //     display += input[i];
-    //     tmpDisplay = '';
-    //   }
-    // }
-    //
-    // if (/\d/.test(tmpDisplay)) {
-    //   display = addNumber(display, tmpDisplay);
-    // }
-    //
-    // return display;
   }
 
   render() {
     let keypad = this.state.buttons.map(button => {
           return <CalcButton key={button} value={button} onClick={this.handleClick}></CalcButton>;
         });
-
-    // let result = '';
-    // let resultTmp = '';
-    // let tmp = +;
-    //
-    // for (let i = 0, len = this.state.newInput3; i < len; i++) {
-    //   if (/\d/.test(this.state.newInput3[i])) {
-    //     resultTmp += this.state.newInput3[i];
-    //   } else {
-    //     result += (Number.parseInt(resultTmp, 10)).toLocaleString();
-    //     resultTmp = '';
-    //   }
-    // }
 
     return (
       <div>
