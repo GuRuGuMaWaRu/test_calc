@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import CalcButton from './CalcButton';
-import DisplayResult from './DisplayResult';
 import './Calculator.css';
 
 class Calculator extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      input: [[11],[22]],
+      input: [],
       firstNum: '',
       operator: '',
       secondNum: '',
@@ -18,14 +17,26 @@ class Calculator extends Component {
 
 
   handleClick = value => {
-    let container = this.state.input.length > 0 ? this.state.input.slice(-1) : [];
+    let input = this.state.input;
 
     //======== getting rid of a leading zero
-    if (container.length === 1 && container[0] === '0' && /\d/.test(value)) {
-      container[0] = value;
+    // if (container.length === 1 && container[0] === '0' && /\d/.test(value)) {
+    //   container[0] = value;
+    // } else if (!/\d/.test(value) && this.state.input.length > 0) {
+    //   container = [value];
+    // }
+    if (/\d/.test(value)) {
+      let container = input.length > 0 ? input.pop() : [];
+      input.push(['12']);
+
+      this.setState({
+        input: input
+      });
     } else if (!/\d/.test(value) && this.state.input.length > 0) {
-      container = [value];
+      // container = container.concat(value);
     }
+
+
     // let value = event.target.textContent;
 
     // this.setState(prevState => ({
@@ -118,14 +129,16 @@ class Calculator extends Component {
           return <CalcButton key={button} value={button} onClick={this.handleClick}></CalcButton>;
         });
 
+    console.log(this.state.input);
+
     return (
       <div>
         <div>
           <h4>Display</h4>
           <div className="Display">
-            {this.state.firstNum + this.state.operator + this.state.secondNum}
+            {/* {this.state.firstNum + this.state.operator + this.state.secondNum} */}
+            {this.state.input}
           </div>
-          <DisplayResult input={this.state.input} className="Results" />
         </div>
         <div>
           <h4>Buttons</h4>
