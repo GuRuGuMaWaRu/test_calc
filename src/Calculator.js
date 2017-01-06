@@ -25,15 +25,31 @@ class Calculator extends Component {
     // } else if (!/\d/.test(value) && this.state.input.length > 0) {
     //   container = [value];
     // }
-    if (/\d/.test(value)) {
-      let container = input.length > 0 ? input.pop() : [];
-      input.push(['12']);
+
+    if (/\d/.test(value)) { //=== add numbers
+      let container = input.length > 0 ? input.pop() : '';
+      container += value;
+      input.push(container);
 
       this.setState({
         input: input
       });
-    } else if (!/\d/.test(value) && this.state.input.length > 0) {
-      // container = container.concat(value);
+    } else if (!/\d/.test(value) && input.length > 0) { //=== add operator
+//((((((((((CURRENT-start))))))))))
+      let container = input.pop();
+
+      if (!/\d/.test(container)) {
+        input.push(value);
+        this.setState({
+          input: input
+        });
+      } else {
+        input.push(value);
+        this.setState({
+          input: input
+        });
+      }
+//((((((((((CURRENT-end))))))))))
     }
 
 
