@@ -7,18 +7,20 @@ class Calculator extends Component {
     super(props);
     this.state = {
       input: [],
-      firstNum: '',
-      operator: '',
-      secondNum: '',
-      result: '',
+      last: '1',
+      // firstNum: '',
+      // operator: '',
+      // secondNum: '',
+      // result: '',
       buttons: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '+', '-', '*', '/']
     };
   }
 
 
-  handleClick = value => {
+  handleClick = (value, event) => {
     let input = this.state.input;
 
+    event.preventDefault();
     //======== getting rid of a leading zero
     // if (container.length === 1 && container[0] === '0' && /\d/.test(value)) {
     //   container[0] = value;
@@ -27,29 +29,33 @@ class Calculator extends Component {
     // }
 
     if (/\d/.test(value)) { //=== add numbers
-      let container = input.length > 0 ? input.pop() : '';
-      container += value;
-      input.push(container);
+      let container = input.length > 0 && /\d/.test(this.state.last) ? input.pop() : '';
 
+      if (container.length === 1 && container === '0') { //=== deal with leading zero problem
+        container = value.toString();
+      } else {
+        container += value;
+      }
+      input.push(container);
       this.setState({
-        input: input
+        input: input,
+        last: value
       });
     } else if (!/\d/.test(value) && input.length > 0) { //=== add operator
-//((((((((((CURRENT-start))))))))))
-      let container = input.pop();
-
-      if (!/\d/.test(container)) {
+      if (!/\d/.test(this.state.last)) { //=== ensure there is only one operator
+        input.pop();
         input.push(value);
         this.setState({
-          input: input
+          input: input,
+          last: value
         });
       } else {
         input.push(value);
         this.setState({
-          input: input
+          input: input,
+          last: value
         });
       }
-//((((((((((CURRENT-end))))))))))
     }
 
 
@@ -141,7 +147,7 @@ class Calculator extends Component {
   }
 
   render() {
-    let keypad = this.state.buttons.map(button => {
+    let keypad = this.state.buttons.map(button => {//=== create keypad
           return <CalcButton key={button} value={button} onClick={this.handleClick}></CalcButton>;
         });
 
