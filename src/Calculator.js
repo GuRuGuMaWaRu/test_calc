@@ -1,19 +1,35 @@
+/*
+RULES:
+1 - no operator if input is empty
+2 - if decimalDot is the first char, add zero before it
+3 - no more than one decimalDot per number
+4 -
+*/
 import React, { Component } from 'react';
 import CalcButton from './CalcButton';
 import './Calculator.css';
 
-class Calculator extends Component {
+export default class Calculator extends Component {
   constructor(props) {
     super(props);
     this.state = {
       input: [],
       last: '1',
+      decimalDot: false,
       // firstNum: '',
       // operator: '',
       // secondNum: '',
       // result: '',
-      buttons: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '+', '-', '*', '/']
+      buttons: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '+', '-', '*', '/', '.']
     };
+  }
+
+  updateState = (value, container, input) => {
+    input.push(container);
+    this.setState({
+      input: input,
+      last: value
+    });
   }
 
 
@@ -21,51 +37,52 @@ class Calculator extends Component {
     let input = this.state.input;
 
     event.preventDefault();
-    //======== getting rid of a leading zero
-    // if (container.length === 1 && container[0] === '0' && /\d/.test(value)) {
-    //   container[0] = value;
-    // } else if (!/\d/.test(value) && this.state.input.length > 0) {
-    //   container = [value];
-    // }
+    if (/\d/.test(value) || (/\./.test(value) && this.state.decimalDot === false)) { //=== add a number or a decimal dot (is there is none)
+      let container = input.length > 0 && /\d|\./.test(this.state.last) ? input.pop() : '';
 
-    if (/\d/.test(value)) { //=== add numbers
-      let container = input.length > 0 && /\d/.test(this.state.last) ? input.pop() : '';
-
-      if (container.length === 1 && container === '0') { //=== deal with leading zero problem
+      if (container.length === 0 && /\./.test(value)) { //=== deal with leading decimal dot issue
+        console.log('deal with leading decimal dot issue');
+        container = '0.';
+        this.setState({
+          decimalDot: true
+        });
+        this.updateState(value, container, input);
+      } else if (container.length === 1 && container === '0') { //=== deal with leading zero issue
+        console.log('deal with leading zero issue');
         container = value.toString();
-      } else {
+        this.updateState(value, container, input);
+      } else if (/\./.test(value)) { //=== add decimal dot only if there is none
+        console.log('add decimal dot if there is none');
         container += value;
+        this.setState({
+          decimalDot: true
+        });
+        this.updateState(value, container, input);
+      } else if (!/\./.test(value)) { //=== add anything except a decimal dot
+        console.log('add anything except a decimal dot');
+        container += value;
+        this.updateState(value, container, input);
       }
-      input.push(container);
-      this.setState({
-        input: input,
-        last: value
-      });
-    } else if (!/\d/.test(value) && input.length > 0) { //=== add operator
+      // input.push(container);
+      // this.setState({
+      //   input: input,
+      //   last: value
+      // });
+    } else if (!/\d|\./.test(value) && input.length > 0) { //=== add operator
+      console.log('add operator');
       if (!/\d/.test(this.state.last)) { //=== ensure there is only one operator
+        console.log('ensure there is only one operator');
         input.pop();
         input.push(value);
-        this.setState({
-          input: input,
-          last: value
-        });
       } else {
         input.push(value);
-        this.setState({
-          input: input,
-          last: value
-        });
       }
+      this.setState({
+        input: input,
+        last: value,
+        decimalDot: false
+      });
     }
-
-
-    // let value = event.target.textContent;
-
-    // this.setState(prevState => ({
-    //   input: prevState.input + value
-    // }));
-
-    // this.parseInput();
   }
 
   parseInput = () => {
@@ -173,5 +190,3 @@ class Calculator extends Component {
     );
   }
 }
-
-export default Calculator;
