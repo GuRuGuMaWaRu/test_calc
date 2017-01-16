@@ -111,7 +111,6 @@ export default class Calculator extends Component {
     function symbolsAfter(number, symbol) {
       let dotIndex = number.indexOf(symbol),
           afterDot = number.slice(dotIndex + 1);
-
       return afterDot.length;
     }
 
@@ -127,16 +126,28 @@ export default class Calculator extends Component {
     switch(operator) {
       case '+':
         if (floatingPoint) {
-          return (firstNumber + secondNumber).toFixed(symbolsAfterDot);
+          return (firstNumber + secondNumber).toLocaleString('en-US', {maximumFractionDigits: 10});
         } else {
-          return firstNumber + secondNumber;
+          return (firstNumber + secondNumber).toLocaleString();
         }
       case '-':
-        return firstNumber - secondNumber;
+        if (floatingPoint) {
+          return (firstNumber - secondNumber).toLocaleString('en-US', {maximumFractionDigits: 10});
+        } else {
+          return (firstNumber - secondNumber).toLocaleString();
+        }
       case '*':
-        return firstNumber * secondNumber;
+        if (floatingPoint) {
+          return (firstNumber * secondNumber).toLocaleString('en-US', {maximumFractionDigits: 10});
+        } else {
+          return (firstNumber * secondNumber).toLocaleString();
+        }
       case '/':
-        return firstNumber / secondNumber;
+        if (floatingPoint) {
+          return (firstNumber / secondNumber).toLocaleString('en-US', {maximumFractionDigits: 10});
+        } else {
+          return (firstNumber / secondNumber).toLocaleString();
+        }
       default:
         return '';
     }
