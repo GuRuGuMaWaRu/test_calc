@@ -101,30 +101,36 @@ export default class Calculator extends Component {
           result: result
         });
       }
-
-      // if (/\d/.test(this.state.input[i]) && this.state.firstNumber.length === 0) {
-      //   this.setState({
-      //     firstNumber: this.state.input[i]
-      //   });
-      // } else if (!/\d/.test(this.state.input[i])) {
-      //   this.setState({
-      //     operator: this.state.input[i]
-      //   });
-      // } else if (/\d/.test(this.state.input[i]) && this.state.secondNumber.length === 0) {
-      //   this.setState({
-      //     secondNumber: this.state.input[i]
-      //   });
-      // }
     }
   }
 
   calculate = (firstNumber, operator, secondNumber) => {
-    firstNumber = Number.parseInt(firstNumber, 10);
-    secondNumber = Number.parseInt(secondNumber, 10);
-    console.log('calculate!');
+    const floatingPoint = firstNumber.indexOf('.') !== -1 || secondNumber.indexOf('.') !== -1;
+    let symbolsAfterDot;
+
+    function symbolsAfter(number, symbol) {
+      let dotIndex = number.indexOf(symbol),
+          afterDot = number.slice(dotIndex + 1);
+
+      return afterDot.length;
+    }
+
+    if (floatingPoint) {
+      symbolsAfterDot = Math.max(symbolsAfter(firstNumber, '.'), symbolsAfter(secondNumber, '.'));
+      firstNumber = Number.parseFloat(firstNumber, 10);
+      secondNumber = Number.parseFloat(secondNumber, 10);
+    } else {
+      firstNumber = Number.parseInt(firstNumber, 10);
+      secondNumber = Number.parseInt(secondNumber, 10);
+    }
+
     switch(operator) {
       case '+':
-        return firstNumber + secondNumber;
+        if (floatingPoint) {
+          return (firstNumber + secondNumber).toFixed(symbolsAfterDot);
+        } else {
+          return firstNumber + secondNumber;
+        }
       case '-':
         return firstNumber - secondNumber;
       case '*':
@@ -160,7 +166,7 @@ export default class Calculator extends Component {
           return <CalcButton key={button} value={button} onClick={this.handleClick}></CalcButton>;
         });
 
-    console.log(this.state.input);
+    // console.log(this.state.input);
 
     return (
       <div>
