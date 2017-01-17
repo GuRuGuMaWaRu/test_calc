@@ -1,10 +1,3 @@
-/*
-RULES:
-1 - no operator if input is empty
-2 - if decimalDot is the first char, add zero before it
-3 - no more than one decimalDot per number
-4 -
-*/
 import React, { Component } from 'react';
 import CalcButton from './CalcButton';
 import './Calculator.css';
@@ -14,20 +7,57 @@ export default class Calculator extends Component {
     super(props);
     this.state = {
       input: [],
+      display: [],
       last: '1',
       decimalDot: false,
-      // firstNumber: '',
-      // operator: '',
-      // secondNumber: '',
       result: '',
       buttons: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '+', '-', '*', '/', '.']
     };
   }
 
   updateState = (value, container, input) => {
+
+    function insertThousandCommas(number) {
+      let counter = 0;
+      let tempString = '';
+      for (let i = number.length - 1; i >= 0; i--) {
+        if (counter === 3) {
+          tempString = number[i] + ',' + tempString;
+          counter = 1;
+        } else {
+          tempString = number[i] + tempString;
+          counter += 1;
+        }
+      }
+      return tempString;
+    }
+
+    function parseNumberForDisplay(number) {
+      if (number.indexOf('.') !== -1){
+        let beforeDecimalDot = number.slice(0, number.indexOf('.')),
+            afterDecimalDot = number.slice(number.indexOf('.'));
+
+        return beforeDecimalDot.length > 3
+          ? insertThousandCommas(beforeDecimalDot) + afterDecimalDot
+          : beforeDecimalDot + afterDecimalDot;
+      } else {
+        return number.length > 3
+          ? insertThousandCommas(number)
+          : number;
+      }
+    }
+
     input.push(container);
+
     this.setState({
       input: input,
+      display: input.map(item => {
+        if (/\d/.test(item)) {
+          return parseNumberForDisplay(item);
+        } else {
+          return item;
+        }
+      }),
       last: value
     });
   }
@@ -62,13 +92,9 @@ export default class Calculator extends Component {
     } else if (!/\d|\./.test(value) && input.length > 0) { //=== add operator
       if (!/\d/.test(this.state.last)) { //=== ensure there is only one operator
         input.pop();
-        input.push(value);
-      } else {
-        input.push(value);
       }
+      this.updateState(value, value, input);
       this.setState({
-        input: input,
-        last: value,
         decimalDot: false
       });
     }
@@ -106,16 +132,8 @@ export default class Calculator extends Component {
 
   calculate = (firstNumber, operator, secondNumber) => {
     const floatingPoint = firstNumber.indexOf('.') !== -1 || secondNumber.indexOf('.') !== -1;
-    let symbolsAfterDot;
-
-    function symbolsAfter(number, symbol) {
-      let dotIndex = number.indexOf(symbol),
-          afterDot = number.slice(dotIndex + 1);
-      return afterDot.length;
-    }
 
     if (floatingPoint) {
-      symbolsAfterDot = Math.max(symbolsAfter(firstNumber, '.'), symbolsAfter(secondNumber, '.'));
       firstNumber = Number.parseFloat(firstNumber, 10);
       secondNumber = Number.parseFloat(secondNumber, 10);
     } else {
@@ -177,15 +195,12 @@ export default class Calculator extends Component {
           return <CalcButton key={button} value={button} onClick={this.handleClick}></CalcButton>;
         });
 
-    // console.log(this.state.input);
-
     return (
       <div>
         <div>
           <h4>Display</h4>
           <div className="Display">
-            {/* {this.state.firstNum + this.state.operator + this.state.secondNum} */}
-            {this.state.input}
+            {this.state.display}
           </div>
           <div className="Result">
             {this.state.result}
