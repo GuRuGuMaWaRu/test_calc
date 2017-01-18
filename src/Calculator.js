@@ -90,7 +90,7 @@ export default class Calculator extends Component {
         this.updateState(value, container, input);
       }
     } else if (!/\d|\./.test(value) && input.length > 0) { //=== add operator
-      if (!/\d/.test(this.state.last)) { //=== ensure there is only one operator
+      if (!/\d/.test(this.state.last) && this.state.last !== '.') { //=== ensure there is only one operator & take care of 'last dot' issue
         input.pop();
       }
       this.updateState(value, value, input);
@@ -116,6 +116,10 @@ export default class Calculator extends Component {
         operator = input[i];
       } else if (/\d/.test(input[i]) && secondNumber.length === 0) {
         secondNumber = input[i];
+      }
+
+      if (operator === '/' && secondNumber === '0') { // deal with 'divide by zero' problem
+        return false;
       }
 
       if (secondNumber.length > 0) {
@@ -172,19 +176,22 @@ export default class Calculator extends Component {
   }
 
   handleDelete = () => {
-    // if (this.state.secondNum.length > 0) {
-    //   this.setState(prevState => ({
-    //     secondNum: prevState.secondNum.slice(0, -1)
-    //   }));
-    // } else if (this.state.operator.length > 0) {
-    //   this.setState({
-    //     operator: ''
-    //   });
-    // } else if (this.state.firstNum.length > 0) {
-    //   this.setState(prevState => ({
-    //     firstNum: prevState.firstNum.slice(0, -1)
-    //   }));
-    // }
+    // console.log(this.state.input);
+    let input = this.state.input,
+        lastInput = '',
+        updatedLastInput = '';
+
+    if (input.length > 0) {
+      lastInput = input.pop();
+      updatedLastInput = lastInput.slice(0, -1);
+      if (updatedLastInput.length > 0) {
+        input.push(updatedLastInput);
+      }
+      this.setState({
+        input
+      });
+    }
+    this.parseInput();
   }
 
   display = () => {
