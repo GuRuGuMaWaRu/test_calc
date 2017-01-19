@@ -16,8 +16,58 @@ export default class Calculator extends Component {
   }
 
   updateState = (value, container, input) => {
+    input.push(container);
+    this.setState({
+      input: input,
+      last: value
+    });
+  }
 
-    function insertThousandCommas(number) {
+
+  handleClick = (value, event) => {
+    let input = this.state.input,
+        container = '';
+
+    event.preventDefault();
+    if (/\d/.test(value) || (/\./.test(value) && this.state.decimalDot === false)) { //=== add a number or a decimal dot (is there is none)
+      container = input.length > 0 && /\d|\./.test(this.state.last) ? input.pop() : '';
+
+      if (container.length === 0 && /\./.test(value)) { //=== deal with leading decimal dot issue
+        container = '0.';
+        this.setState({
+          decimalDot: true
+        });
+      } else if (container.length === 1 && container === '0') { //=== deal with leading zero issue
+        container = value.toString();
+      } else if (/\./.test(value)) { //=== add decimal dot only if there is none
+        container += value;
+        this.setState({
+          decimalDot: true
+        });
+      } else if (!/\./.test(value)) { //=== add anything except a decimal dot
+        container += value;
+      }
+    } else if (!/\d|\./.test(value) && input.length > 0) { //=== add operator
+      if (!/\d/.test(this.state.last) && this.state.last !== '.') { //=== ensure there is only one operator & take care of 'last dot' issue
+        input.pop();
+      }
+      container = value;
+      this.setState({
+        decimalDot: false
+      });
+    }
+    this.updateState(value, container, input);
+    this.parseInput();
+  }
+
+  parseInput = () => {
+    let input = this.state.input,
+        firstNumber = '',
+        operator = '',
+        secondNumber = '',
+        result = '';
+
+    function insertThousandSeparators(number) { // helper function used to insert thousand separators
       let counter = 0;
       let tempString = '';
       for (let i = number.length - 1; i >= 0; i--) {
@@ -32,81 +82,30 @@ export default class Calculator extends Component {
       return tempString;
     }
 
-    function parseNumberForDisplay(number) {
+    function parseNumberForDisplay(number) { // helper function used to adjust displayed numbers
       if (number.indexOf('.') !== -1){
         let beforeDecimalDot = number.slice(0, number.indexOf('.')),
             afterDecimalDot = number.slice(number.indexOf('.'));
 
         return beforeDecimalDot.length > 3
-          ? insertThousandCommas(beforeDecimalDot) + afterDecimalDot
+          ? insertThousandSeparators(beforeDecimalDot) + afterDecimalDot
           : beforeDecimalDot + afterDecimalDot;
       } else {
         return number.length > 3
-          ? insertThousandCommas(number)
+          ? insertThousandSeparators(number)
           : number;
       }
     }
 
-    input.push(container);
-
-    this.setState({
-      input: input,
+    this.setState({ // display input
       display: input.map(item => {
         if (/\d/.test(item)) {
           return parseNumberForDisplay(item);
         } else {
           return item;
         }
-      }),
-      last: value
+      })
     });
-  }
-
-
-  handleClick = (value, event) => {
-    let input = this.state.input;
-
-    event.preventDefault();
-    if (/\d/.test(value) || (/\./.test(value) && this.state.decimalDot === false)) { //=== add a number or a decimal dot (is there is none)
-      let container = input.length > 0 && /\d|\./.test(this.state.last) ? input.pop() : '';
-
-      if (container.length === 0 && /\./.test(value)) { //=== deal with leading decimal dot issue
-        container = '0.';
-        this.setState({
-          decimalDot: true
-        });
-        this.updateState(value, container, input);
-      } else if (container.length === 1 && container === '0') { //=== deal with leading zero issue
-        container = value.toString();
-        this.updateState(value, container, input);
-      } else if (/\./.test(value)) { //=== add decimal dot only if there is none
-        container += value;
-        this.setState({
-          decimalDot: true
-        });
-        this.updateState(value, container, input);
-      } else if (!/\./.test(value)) { //=== add anything except a decimal dot
-        container += value;
-        this.updateState(value, container, input);
-      }
-    } else if (!/\d|\./.test(value) && input.length > 0) { //=== add operator
-      if (!/\d/.test(this.state.last) && this.state.last !== '.') { //=== ensure there is only one operator & take care of 'last dot' issue
-        input.pop();
-      }
-      this.updateState(value, value, input);
-      this.setState({
-        decimalDot: false
-      });
-    }
-    this.parseInput();
-  }
-
-  parseInput = () => {
-    let input = this.state.input,
-        firstNumber = '',
-        operator = '',
-        secondNumber = '',
-        result = '';
 
     for (let i = 0, len = input.length; i < len; i++) {
 
@@ -176,7 +175,7 @@ export default class Calculator extends Component {
   }
 
   handleDelete = () => {
-    // console.log(this.state.input);
+    console.log(this.state.input);
     let input = this.state.input,
         lastInput = '',
         updatedLastInput = '';
