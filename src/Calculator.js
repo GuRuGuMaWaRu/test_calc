@@ -15,18 +15,17 @@ export default class Calculator extends Component {
     };
   }
 
-  updateState = (value, container, input) => {
-    input.push(container);
-    this.setState({
-      input: input,
-      last: value
-    });
-  }
-
-
   handleClick = (value, event) => {
     let input = this.state.input,
         container = '';
+
+    var updateState = (value, container, input) => {
+      input.push(container);
+      this.setState({
+        input: input,
+        last: value
+      });
+    }
 
     event.preventDefault();
     if (/\d/.test(value) || (/\./.test(value) && this.state.decimalDot === false)) { //=== add a number or a decimal dot (is there is none)
@@ -56,7 +55,7 @@ export default class Calculator extends Component {
         decimalDot: false
       });
     }
-    this.updateState(value, container, input);
+    updateState(value, container, input);
     this.parseInput();
   }
 
@@ -67,7 +66,7 @@ export default class Calculator extends Component {
         secondNumber = '',
         result = '';
 
-    function insertThousandSeparators(number) { // helper function used to insert thousand separators
+    var insertThousandSeparators = number => { // helper function used to insert thousand separators
       let counter = 0;
       let tempString = '';
       for (let i = number.length - 1; i >= 0; i--) {
@@ -82,7 +81,7 @@ export default class Calculator extends Component {
       return tempString;
     }
 
-    function parseNumberForDisplay(number) { // helper function used to adjust displayed numbers
+    var parseNumberForDisplay = number => { // helper function used to adjust displayed numbers
       if (number.indexOf('.') !== -1){
         let beforeDecimalDot = number.slice(0, number.indexOf('.')),
             afterDecimalDot = number.slice(number.indexOf('.'));
@@ -104,10 +103,11 @@ export default class Calculator extends Component {
         } else {
           return item;
         }
-      })
+      }),
+      result: ''
     });
 
-    for (let i = 0, len = input.length; i < len; i++) {
+    for (let i = 0, len = input.length; i < len; i++) { // parse input for calculation
 
       if (/\d/.test(input[i]) && firstNumber.length === 0) {
         firstNumber = input[i];
@@ -121,13 +121,15 @@ export default class Calculator extends Component {
         return false;
       }
 
-      if (secondNumber.length > 0) {
+      if (secondNumber.length > 0) { // go to calculation if conditions are right
         result = this.calculate(firstNumber, operator, secondNumber);
-        firstNumber = result;
+        firstNumber = result.toString();
         operator = '';
         secondNumber = '';
         this.setState({
-          result: result
+          result: firstNumber.indexOf('.') !== -1
+            ? result.toLocaleString('en-US', {maximumFractionDigits: 10})
+            : result.toLocaleString()
         });
       }
     }
@@ -136,7 +138,7 @@ export default class Calculator extends Component {
   calculate = (firstNumber, operator, secondNumber) => {
     const floatingPoint = firstNumber.indexOf('.') !== -1 || secondNumber.indexOf('.') !== -1;
 
-    if (floatingPoint) {
+    if (floatingPoint) { // convert string numbers into true numbers
       firstNumber = Number.parseFloat(firstNumber, 10);
       secondNumber = Number.parseFloat(secondNumber, 10);
     } else {
@@ -144,38 +146,21 @@ export default class Calculator extends Component {
       secondNumber = Number.parseInt(secondNumber, 10);
     }
 
-    switch(operator) {
+    switch(operator) { // perform a calculation depending on passed operator
       case '+':
-        if (floatingPoint) {
-          return (firstNumber + secondNumber).toLocaleString('en-US', {maximumFractionDigits: 10});
-        } else {
-          return (firstNumber + secondNumber).toLocaleString();
-        }
+        return firstNumber + secondNumber;
       case '-':
-        if (floatingPoint) {
-          return (firstNumber - secondNumber).toLocaleString('en-US', {maximumFractionDigits: 10});
-        } else {
-          return (firstNumber - secondNumber).toLocaleString();
-        }
+        return firstNumber - secondNumber;
       case '*':
-        if (floatingPoint) {
-          return (firstNumber * secondNumber).toLocaleString('en-US', {maximumFractionDigits: 10});
-        } else {
-          return (firstNumber * secondNumber).toLocaleString();
-        }
+        return firstNumber * secondNumber;
       case '/':
-        if (floatingPoint) {
-          return (firstNumber / secondNumber).toLocaleString('en-US', {maximumFractionDigits: 10});
-        } else {
-          return (firstNumber / secondNumber).toLocaleString();
-        }
+        return firstNumber / secondNumber;
       default:
         return '';
     }
   }
 
   handleDelete = () => {
-    console.log(this.state.input);
     let input = this.state.input,
         lastInput = '',
         updatedLastInput = '';
@@ -191,9 +176,6 @@ export default class Calculator extends Component {
       });
     }
     this.parseInput();
-  }
-
-  display = () => {
   }
 
   render() {
