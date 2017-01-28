@@ -11,7 +11,8 @@ export default class Calculator extends Component {
       last: '1',
       decimalDot: false,
       result: '',
-      buttons: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '+', '-', '*', '/', '.']
+      message: '',
+      buttons: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '+', '-', '*', '/', '.', '()'],
     };
   }
 
@@ -44,9 +45,21 @@ export default class Calculator extends Component {
           decimalDot: true
         });
       } else if (!/\./.test(value)) { //=== add anything except a decimal dot
-        container += value;
+        if (container.length <= 14) {
+          container += value;
+        } else { //=== show 'maximum amount reached' message for a second
+          this.setState({
+            message: '15 digits maximum'
+          });
+          window.setTimeout(() => {this.setState({message: ''})}, 800);
+        }
       }
-    } else if (!/\d|\./.test(value) && input.length > 0) { //=== add operator
+      updateState(value, container, input);
+    } else if (/()/.test(value)) {
+      container += value;
+      console.log(container);
+      updateState(value, container, input);
+    } else if (/\+|\-|\*|\//.test(value) && input.length > 0) { //=== add operator
       if (!/\d/.test(this.state.last) && this.state.last !== '.') { //=== ensure there is only one operator & take care of 'last dot' issue
         input.pop();
       }
@@ -54,8 +67,8 @@ export default class Calculator extends Component {
       this.setState({
         decimalDot: false
       });
+      updateState(value, container, input);
     }
-    updateState(value, container, input);
     this.parseInput();
   }
 
@@ -192,6 +205,9 @@ export default class Calculator extends Component {
           </div>
           <div className="Result">
             {this.state.result}
+          </div>
+          <div className="Message">
+            {this.state.message}
           </div>
         </div>
         <div>
