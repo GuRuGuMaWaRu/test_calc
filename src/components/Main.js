@@ -15,8 +15,11 @@ export default class Main extends Component {
     console.log(value);
   }
 
+  handleDelete = () => {
+    console.log('delete')
+  }
+
   render() {
-    console.log("render");
     const keypad = this.state.buttons.map(button => {//=== create calculator keypad
           return <CalcButton key={button} value={button} onClick={this.handleClick}></CalcButton>;
         });
@@ -37,7 +40,7 @@ export default class Main extends Component {
         </div>
         <div>
           <h4>Buttons</h4>
-          <button onClick={null}>Delete</button>
+          <button onClick={this.handleDelete}>Delete</button>
           <div>
             {keypad}
           </div>
