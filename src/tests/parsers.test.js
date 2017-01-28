@@ -7,3 +7,7 @@ it('removes redundant leading zeroes', () => {
 it('inserts zero before the leading decimal dot', () => {
   expect(parseInput('.')).toEqual('0.');
 });
+
+it('allows only one decimal dot per number', () => {
+  expect(parseInput('0.34.').toEqual('0.34'));
+});
