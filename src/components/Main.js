@@ -12,7 +12,9 @@ export default class Main extends Component {
   }
 
   handleClick = (value) => {
-    console.log(value);
+    this.setState((prevState) => ({
+      input: prevState.input + value
+    }));
   }
 
   handleDelete = () => {
@@ -29,7 +31,7 @@ export default class Main extends Component {
         <div>
           <h4>Display</h4>
           <div className="Display">
-            {/* {this.state.display} */}
+            {this.state.input}
           </div>
           <div className="Result">
             {/* {this.state.result} */}
