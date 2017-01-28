@@ -6,13 +6,19 @@ export default class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      input: '',
       buttons: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '+', '-', '*', '/', '.', '()']
     };
   }
 
+  handleClick = (value) => {
+    console.log(value);
+  }
+
   render() {
+    console.log("render");
     const keypad = this.state.buttons.map(button => {//=== create calculator keypad
-          return <CalcButton key={button} value={button} onClick={null}></CalcButton>;
+          return <CalcButton key={button} value={button} onClick={this.handleClick}></CalcButton>;
         });
 
     return (
