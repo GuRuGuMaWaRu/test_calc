@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import CalcButton from './CalcButton';
+import parseInput from '../utils/parsers';
 import '../styles/Main.css';
 
 export default class Main extends Component {
@@ -12,6 +13,7 @@ export default class Main extends Component {
   }
 
   handleClick = (value) => {
+    parseInput(value);
     this.setState((prevState) => ({
       input: prevState.input + value
     }));
