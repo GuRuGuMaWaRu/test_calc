@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactRouter, { Router, Route, hashHistory } from 'react-router';
-import Calculator from '../components/Calculator';
+import Main from '../components/Main';
 
 var routes = (
   <Router history={hashHistory}>
-    <Route path="/" component={Calculator} />
+    <Route path="/" component={Main} />
   </Router>
 );
 
