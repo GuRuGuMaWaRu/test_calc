@@ -1,5 +1,5 @@
 const parseInput = (input) => {
-  let match = input.match(/^[^00]\d/);
+  let match = input.replace(/\b0{2,}/, ''); //=== remove leading zeroes
   console.log(match);
   return match;
 }

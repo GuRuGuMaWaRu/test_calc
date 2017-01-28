@@ -13,7 +13,7 @@ export default class Main extends Component {
   }
 
   handleClick = (value) => {
-    parseInput(value);
+    parseInput(this.state.input + value);
     this.setState((prevState) => ({
       input: prevState.input + value
     }));
