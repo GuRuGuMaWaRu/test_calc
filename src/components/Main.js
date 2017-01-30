@@ -19,7 +19,7 @@ export default class Main extends Component {
   }
 
   handleDelete = () => {
-    console.log('delete')
+    console.log('delete');
   }
 
   render() {
