@@ -1,7 +1,8 @@
 import parseInput from '../utils/parsers';
 
 it('removes redundant leading zeroes', () => {
-  expect(parseInput('001')).toEqual('1');
+  expect(parseInput('00')).toEqual('0');
+  expect(parseInput('06')).toEqual('6');
 });
 
 it('inserts zero before the leading decimal dot', () => {
