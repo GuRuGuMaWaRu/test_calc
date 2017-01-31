@@ -14,7 +14,7 @@ export default class Main extends Component {
 
   handleClick = (value) => {
     this.setState({
-      input: parseInput(this.state.input + value)
+      input: parseInput(this.state.input + value, value)
     });
   }
 

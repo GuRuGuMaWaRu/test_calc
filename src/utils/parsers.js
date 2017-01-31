@@ -1,28 +1,37 @@
-const parseInput = (input) => {
+const parseInput = (input, value) => {
   const handlers = [
     {
-      test: /(^|[\/\+\-\*\(])0([0-9])/, //=== solve leading zero issue
+      value: /\d/,
+      test: /(^|[\/\+\-\*\(])0(\d)/, //=== solve leading zero issue
       convert: '$1$2'
     },
     {
+      value: /\./,
       test: /(^|[\/\+\-\*])(\.)/, //=== insert zero before leading decimal dot
       convert: '$10$2'
     },
     {
+      value: /\./,
       test: /\b(\d+\.)(\d+)?(\.)/, //=== solve duplicate decimal dot issue
       convert: '$1$2'
     },
     {
+      value: /[\/\+\-\*]/,
       test: /^[\/\+\-\*]/, //=== solve leading operator issue
       convert: ''
     },
     {
+      value: /[\/\+\-\*]/,
       test: /[\/\+\-\*](?=[\/\+\-\*])/, //=== solve consecutive operators issue
       convert: ''
     }
   ];
+  const chosenHandlers = handlers.filter(handler => {
+    let regexp = handler.value;
+    return regexp.test(value);
+  });
 
-  return handlers.reduce((a, b) => { //=== run accumulated input through all parser functions
+  return chosenHandlers.reduce((a, b) => { //=== run accumulated input through all parser functions
     return a.replace(b.test, b.convert);
   }, input);
 }
