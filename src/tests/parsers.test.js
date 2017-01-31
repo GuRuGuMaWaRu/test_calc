@@ -16,4 +16,10 @@ describe('raw input parser', () => {
     expect(parseInput('6563+0.34/434..')).toEqual('6563+0.34/434.');
   });
 
+  it('does not allow leading operators', () => {
+    expect(parseInput('+')).toEqual('');
+    expect(parseInput('-')).toEqual('');
+    expect(parseInput('/')).toEqual('');
+    expect(parseInput('*')).toEqual('');
+  });
 });
