@@ -36,5 +36,10 @@ describe('raw input parser', () => {
 
   it('inserts a leading opening bracket', () => {
     expect(parseInput('()', '()')).toEqual('(');
-  })
+  });
+
+  it('inserts an opening bracket after an opening bracket', () => {
+    expect(parseInput('(()', '()')).toEqual('((');
+    expect(parseInput('((((()', '()')).toEqual('(((((');
+  });
 });

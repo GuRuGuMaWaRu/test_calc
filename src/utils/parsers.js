@@ -27,8 +27,8 @@ const parseInput = (input, value) => {
     },
     {
       value: /\(\)/,
-      test: /^\(\)/,
-      convert: '('
+      test: /^(\(+)?\)/,
+      convert: '$1'
     }
   ];
   const chosenHandlers = handlers.filter(handler => {
