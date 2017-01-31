@@ -34,7 +34,7 @@ describe('raw input parser', () => {
     expect(parseInput('4+/', '/')).toEqual('4/');
   });
 
-  it('inserts opening brackets if current input is empty', () => {
+  it('inserts a leading opening bracket', () => {
     expect(parseInput('()', '()')).toEqual('(');
   })
 });

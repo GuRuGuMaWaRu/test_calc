@@ -24,6 +24,11 @@ const parseInput = (input, value) => {
       value: /[\/\+\-\*]/,
       test: /[\/\+\-\*](?=[\/\+\-\*])/, //=== solve consecutive operators issue
       convert: ''
+    },
+    {
+      value: /\(\)/,
+      test: /^\(\)/,
+      convert: '('
     }
   ];
   const chosenHandlers = handlers.filter(handler => {
