@@ -22,4 +22,13 @@ describe('raw input parser', () => {
     expect(parseInput('/')).toEqual('');
     expect(parseInput('*')).toEqual('');
   });
+
+  it('does not allow more than one consecutive operator', () => {
+    expect(parseInput('4+-')).toEqual('4-');
+    expect(parseInput('4-+')).toEqual('4+');
+    expect(parseInput('4*-')).toEqual('4-');
+    expect(parseInput('4/-')).toEqual('4-');
+    expect(parseInput('4+*')).toEqual('4*');
+    expect(parseInput('4+/')).toEqual('4/');
+  });
 });
