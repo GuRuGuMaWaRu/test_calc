@@ -1,11 +1,30 @@
 const parseInput = (input) => {
-  let match = '';
-  match = input.replace(/(^|[\/\+\-\*\(])0([0-9])/, '$2'); //=== solve leading zero issue
-  match = match.replace(/(^|[\/\+\-\*])(\.)/, '$10$2'); //=== insert zero before leading decimal dot
-  match = match.replace(/\b(\d+\.)(\d+)?(\.)/, '$1$2'); //=== solve duplicate decimal dot issue
-  match = match.replace(/^[\/\+\-\*]/, ''); //=== solve leading operator issue
-  match = match.replace(/[\/\+\-\*](?=[\/\+\-\*])/, ''); //=== solve consecutive operators issue
-  return match;
+  const handlers = [
+    {
+      test: /(^|[\/\+\-\*\(])0([0-9])/, //=== solve leading zero issue
+      convert: '$1$2'
+    },
+    {
+      test: /(^|[\/\+\-\*])(\.)/, //=== insert zero before leading decimal dot
+      convert: '$10$2'
+    },
+    {
+      test: /\b(\d+\.)(\d+)?(\.)/, //=== solve duplicate decimal dot issue
+      convert: '$1$2'
+    },
+    {
+      test: /^[\/\+\-\*]/, //=== solve leading operator issue
+      convert: ''
+    },
+    {
+      test: /[\/\+\-\*](?=[\/\+\-\*])/, //=== solve consecutive operators issue
+      convert: ''
+    }
+  ];
+
+  return handlers.reduce((a, b) => { //=== run accumulated input through all parser functions
+    return a.replace(b.test, b.convert);
+  }, input);
 }
 
 export default parseInput;

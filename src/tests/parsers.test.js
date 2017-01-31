@@ -5,6 +5,7 @@ describe('raw input parser', () => {
     expect(parseInput('00')).toEqual('0');
     expect(parseInput('06')).toEqual('6');
     expect(parseInput('6.00')).toEqual('6.00');
+    expect(parseInput('66+06')).toEqual('66+6');
   });
 
   it('inserts zero before the leading decimal dot', () => {
