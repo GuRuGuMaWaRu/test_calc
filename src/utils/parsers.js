@@ -1,4 +1,5 @@
-const parseInput = (input, value) => {
+const parseInput = (previousInput, currentInput) => {
+  const totalInput = previousInput + currentInput;
   const handlers = [
     {
       value: /\d/,
@@ -36,14 +37,21 @@ const parseInput = (input, value) => {
       convert: '$1/)'
     }
   ];
+
+  if (currentInput === '()') {
+    const openingBrackets = previousInput.match(/\(/g),
+          closingBrackets = previousInput.match(/\)/g);
+    console.log(openingBrackets);
+  }
+
   const chosenHandlers = handlers.filter(handler => {
     let regexp = handler.value;
-    return regexp.test(value);
+    return regexp.test(currentInput);
   });
 
   return chosenHandlers.reduce((a, b) => { //=== run accumulated input through all parser functions
     return a.replace(b.test, b.convert);
-  }, input);
+  }, totalInput);
 }
 
 export default parseInput;
