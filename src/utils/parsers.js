@@ -26,9 +26,14 @@ const parseInput = (input, value) => {
       convert: ''
     },
     {
-      value: /\(\)/,
+      value: /\(\)/, //=== solve leading brackets issue
       test: /^(\(+)?\)/,
       convert: '$1'
+    },
+    {
+      value: /\(\)/, //=== solve 'input opening bracket after an operator' issue
+      test: /([\/\+\-\*])\(\)/,
+      convert: '$1/)'
     }
   ];
   const chosenHandlers = handlers.filter(handler => {

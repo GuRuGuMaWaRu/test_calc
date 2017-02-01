@@ -42,4 +42,11 @@ describe('raw input parser', () => {
     expect(parseInput('(()', '()')).toEqual('((');
     expect(parseInput('((((()', '()')).toEqual('(((((');
   });
+
+  it('considers open brackets when you input brackets after a number', () => {
+    expect(parseInput('(67()', '()')).toEqual('(67)');
+    expect(parseInput('((67()', '()')).toEqual('((67)');
+    expect(parseInput('(55*(66()', '()')).toEqual('(55*(66)');
+    // expect(parseInput('(55*(66))()', '()')).toEqual('(55*(66))*(');
+  });
 });
