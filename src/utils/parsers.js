@@ -42,15 +42,20 @@ const parseInput = (previousInput, currentInput) => {
     const openingBrackets = previousInput.match(/\(/g),
           closingBrackets = previousInput.match(/\)/g),
           openingBracketsNr = openingBrackets ? openingBrackets.length : 0,
-          closingBracketsNr = closingBrackets ? closingBracketsNr.length : 0;
+          closingBracketsNr = closingBrackets ? closingBrackets.length : 0;
     if (openingBracketsNr > closingBracketsNr) {
       handlers.push({
         value: /\(\)/,
         test: /(\d|\.)\(\)/,
         convert: '$1)'
       });
+    } else {
+      handlers.push({
+        value: /\(\)/,
+        test: /(\d|\.|\))\(\)/,
+        convert: '$1*('
+      });
     }
-    console.log(openingBracketsNr);
   }
 
   const chosenHandlers = handlers.filter(handler => {

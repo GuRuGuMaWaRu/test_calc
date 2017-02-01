@@ -48,6 +48,11 @@ describe('raw input parser', () => {
     expect(parseInput('((67', '()')).toEqual('((67)');
     expect(parseInput('(55*(66', '()')).toEqual('(55*(66)');
     expect(parseInput('(55.', '()')).toEqual('(55.)');
-    // expect(parseInput('(55*(66))()', '()')).toEqual('(55*(66))*(');
+  });
+
+  it('inserts an opening bracket and a multiplication operator after a number/closing bracket if there are no unclosed open brackets', () => {
+    expect(parseInput('67', '()')).toEqual('67*(');
+    expect(parseInput('67.', '()')).toEqual('67.*(');
+    expect(parseInput('(67)', '()')).toEqual('(67)*(');
   });
 });
