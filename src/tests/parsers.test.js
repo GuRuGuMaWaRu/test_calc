@@ -1,4 +1,4 @@
-import { parseInput, prepareInputForCalculation } from '../utils/parsers';
+import { parseInput, deleteInput, prepareInputForCalculation } from '../utils/parsers';
 
 describe('raw input parser', () => {
   it('removes redundant leading zeroes', () => {
@@ -54,6 +54,12 @@ describe('raw input parser', () => {
     expect(parseInput('67', '()')).toEqual('67*(');
     expect(parseInput('67.', '()')).toEqual('67.*(');
     expect(parseInput('(67)', '()')).toEqual('(67)*(');
+  });
+});
+
+describe('deleteInput', () => {
+  it('deletes last character from input', () => {
+    expect(deleteInput('67+232')).toEqual('67+23');
   });
 });
 

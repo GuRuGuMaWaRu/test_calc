@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import CalcButton from './CalcButton';
-import { parseInput, prepareInputForCalculation } from '../utils/parsers';
+import { parseInput, deleteInput, prepareInputForCalculation } from '../utils/parsers';
 import calculate from '../utils/calculation';
 import '../styles/Main.css';
 
@@ -23,7 +23,7 @@ export default class Main extends Component {
 
   handleDelete = () => {
     this.setState(prevState => ({
-      input: prevState.input.slice(0, -1)
+      input: deleteInput(prevState.input)
     }));
   }
 

@@ -68,6 +68,10 @@ export const parseInput = (previousInput, currentInput) => {
   }, totalInput);
 }
 
+export const deleteInput = (input) => {
+  return input.slice(0, -1);
+}
+
 export const prepareInputForCalculation = (input) => {
   if (/\/|\+|\-|\*|\(]/.test(input[-1])) {
     return input.slice(0, -1);
