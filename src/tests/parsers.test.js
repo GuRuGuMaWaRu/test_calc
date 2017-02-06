@@ -1,4 +1,4 @@
-import parseInput from '../utils/parsers';
+import { parseInput, prepareInputForCalculation } from '../utils/parsers';
 
 describe('raw input parser', () => {
   it('removes redundant leading zeroes', () => {
@@ -56,3 +56,12 @@ describe('raw input parser', () => {
     expect(parseInput('(67)', '()')).toEqual('(67)*(');
   });
 });
+
+describe('prepareInputForCalculation', () => {
+  it('deletes the final character from input if it is an operator or an opening bracket', () => {
+    expect(prepareInputForCalculation('67+')).toEqual('67');
+    expect(prepareInputForCalculation('67+(')).toEqual('67');
+    expect(prepareInputForCalculation('67-')).toEqual('67');
+    expect(prepareInputForCalculation('67*')).toEqual('67');
+  })
+})

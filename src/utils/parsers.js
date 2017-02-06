@@ -1,4 +1,4 @@
-const parseInput = (previousInput, currentInput) => {
+export const parseInput = (previousInput, currentInput) => {
   const totalInput = previousInput + currentInput;
   const handlers = [
     {
@@ -68,4 +68,10 @@ const parseInput = (previousInput, currentInput) => {
   }, totalInput);
 }
 
-export default parseInput;
+export const prepareInputForCalculation = (input) => {
+  if (/\/|\+|\-|\*|\(]/.test(input[-1])) {
+    return input.slice(0, -1);
+  } else {
+    return input;
+  }
+}
