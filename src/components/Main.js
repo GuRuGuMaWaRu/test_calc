@@ -19,7 +19,9 @@ export default class Main extends Component {
   }
 
   handleDelete = () => {
-    console.log('delete');
+    this.setState(prevState => ({
+      input: prevState.input.slice(0, -1)
+    }));
   }
 
   render() {
