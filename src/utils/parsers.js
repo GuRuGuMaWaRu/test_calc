@@ -72,8 +72,8 @@ export const deleteInput = (input) => {
   return input.slice(0, -1);
 }
 
-export const prepareInputForCalculation = (input) => {
-  if (/\/|\+|\-|\*|\(]/.test(input[-1])) {
+export const prepareInput = (input) => {
+  if (/[+(-/*]$/.test(input)) {
     return input.slice(0, -1);
   } else {
     return input;

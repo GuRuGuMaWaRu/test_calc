@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import CalcButton from './CalcButton';
-import { parseInput, deleteInput, prepareInputForCalculation } from '../utils/parsers';
-import calculate from '../utils/calculation';
+import { parseInput, deleteInput, prepareInput } from '../utils/parsers';
+import { calculate } from '../utils/calculation';
 import '../styles/Main.css';
 
 export default class Main extends Component {
@@ -15,7 +15,6 @@ export default class Main extends Component {
   }
 
   handleClick = (value) => {
-    console.log(parseInput(this.state.input, value));
     this.setState({
       input: parseInput(this.state.input, value)
     });
@@ -40,7 +39,7 @@ export default class Main extends Component {
             {this.state.input}
           </div>
           <div className="Result">
-            {calculate(this.state.input)}
+            {calculate(prepareInput(this.state.input))}
           </div>
           <div className="Message">
             {/* {this.state.message} */}
