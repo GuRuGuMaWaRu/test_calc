@@ -7,6 +7,7 @@ export const parseBrackets = (input) => {
   if (input.indexOf('(') !== -1) {
     if (input.indexOf(')') === -1) { // if there are only opening brackets, remove them
       input = input.replace(/\(/g, '');
+      parseBrackets(input); // repeat, but this time without any bracketed expressions
     } else { // extract the first bracketed expression
       const firstClosingBracket = input.indexOf(')');
       const lastOpeningBracket = input.lastIndexOf('(', firstClosingBracket);
@@ -16,6 +17,14 @@ export const parseBrackets = (input) => {
 
   }
   return input;
+}
+
+export const removeTrailingOperator = (input) => {
+  if (/[\/\+\-\*]$/.test(input)) {
+    return input.slice(0, -1);
+  } else {
+    return input;
+  }
 }
 
 export const calculateOuter = (input) => {

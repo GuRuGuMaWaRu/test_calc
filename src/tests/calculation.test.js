@@ -1,4 +1,9 @@
-import { calculate, parseBrackets, calculateOuter, calculateSimple } from '../utils/calculation';
+import {
+  calculate,
+  parseBrackets,
+  removeTrailingOperator,
+  calculateOuter,
+  calculateSimple } from '../utils/calculation';
 
 describe('calculate', () => {
   it('creates code from string', () => {
@@ -13,6 +18,19 @@ describe('parseBrackets', () => {
   });
   it('extracts the first bracketed expression', () => {
     expect(parseBrackets('(6+2)+(8+1)')).toEqual('6+2');
+  });
+});
+
+describe('removeTrailingOperator', () => {
+  it('removes trailing operator if there is such', () => {
+    expect(removeTrailingOperator('65+')).toEqual('65');
+    expect(removeTrailingOperator('65+87-565*')).toEqual('65+87-565');
+    expect(removeTrailingOperator('65+87-565/')).toEqual('65+87-565');
+    expect(removeTrailingOperator('65+87-565-')).toEqual('65+87-565');
+  });
+  it('returns unchanged input if there are no trailing operators', () => {
+    expect(removeTrailingOperator('65+88')).toEqual('65+88');
+    expect(removeTrailingOperator('4*54/2')).toEqual('4*54/2');
   });
 });
 
