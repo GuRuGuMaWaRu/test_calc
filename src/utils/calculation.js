@@ -3,22 +3,6 @@ export const calculate = (input) => {
   return calculation();
 }
 
-export const parseBrackets = (input) => {
-  if (input.indexOf('(') !== -1) {
-    if (input.indexOf(')') === -1) { // if there are only opening brackets, remove them
-      input = input.replace(/\(/g, '');
-      parseBrackets(input); // repeat, but this time without any bracketed expressions
-    } else { // extract the first bracketed expression
-      const firstClosingBracket = input.indexOf(')');
-      const lastOpeningBracket = input.lastIndexOf('(', firstClosingBracket);
-      return input.slice(lastOpeningBracket + 1, firstClosingBracket);
-    }
-  } else {
-
-  }
-  return input;
-}
-
 export const removeTrailingOperator = (input) => {
   if (/[\/\+\-\*]$/.test(input)) {
     return input.slice(0, -1);
@@ -27,9 +11,29 @@ export const removeTrailingOperator = (input) => {
   }
 }
 
-export const calculateOuter = (input) => {
+export const calculationParser = (input) => {
   if (input.search(/[+-/*]/) === -1) {
     return input;
+  } else {
+    input = removeTrailingOperator(input);
+    if (input.indexOf('(') !== -1) { // there are opening brackets
+      if (input.indexOf(')') === -1) { // if there are only opening brackets, remove them
+        input = input.replace(/\(/g, '');
+        calculationParser(input); // repeat, but this time without any bracketed expressions
+      } else { // extract the first bracketed expression
+        const firstClosingBracket = input.indexOf(')');
+        const lastOpeningBracket = input.lastIndexOf('(', firstClosingBracket);
+        calculateOuter(input.slice(lastOpeningBracket + 1, firstClosingBracket));
+      }
+    } else  { // there are no brackets
+      calculateOuter(input);
+    }
+  }
+}
+
+export const calculateOuter = (input) => {
+  if (input.search(/[+-/*]/) === -1) {
+    calculationParser(input);
   } else {
     return input.replace(/^([\d\.]+)([\/\+\-\*])([\d\.]+)/, calculateSimple);
   }
