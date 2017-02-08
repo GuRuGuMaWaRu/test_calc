@@ -22,13 +22,11 @@ export const calculateOuter = (input) => {
   if (input.search(/[+-/*]/) === -1) {
     return input;
   } else {
-    input.replace(/^(d+)([+-/*])(d+)/, () => {
-      calculateSimple($1, $2, $3);
-    });
+    return input.replace(/^([\d\.]+)([\/\+\-\*])([\d\.]+)/, calculateSimple);
   }
 }
 
-export const calculateSimple = (firstNumber, operator, secondNumber) => {
+export const calculateSimple = (_match, firstNumber, operator, secondNumber) => {
   const floatingPoint = firstNumber.indexOf('.') !== -1 || secondNumber.indexOf('.') !== -1;
 
   if (floatingPoint) { // convert string numbers into true numbers
