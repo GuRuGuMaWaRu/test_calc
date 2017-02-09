@@ -3,39 +3,33 @@ export const calculate = (input) => {
   return calculation();
 }
 
-export const removeTrailingOperator = (input) => {
-  if (/[\/\+\-\*]$/.test(input)) {
-    return input.slice(0, -1);
-  } else {
+export const calculationParser = (input) => {
+  if (/^\d+(\.)?(\d+)?$/.test(input)) { // return if only one number is left
     return input;
   }
-}
-
-export const calculationParser = (input) => {
-  if (input.search(/[+-/*]/) === -1) {
-    return input;
-  } else {
-    input = removeTrailingOperator(input);
-    if (input.indexOf('(') !== -1) { // there are opening brackets
-      if (input.indexOf(')') === -1) { // if there are only opening brackets, remove them
-        input = input.replace(/\(/g, '');
-        calculationParser(input); // repeat, but this time without any bracketed expressions
-      } else { // extract the first bracketed expression
-        const firstClosingBracket = input.indexOf(')');
-        const lastOpeningBracket = input.lastIndexOf('(', firstClosingBracket);
-        calculateOuter(input.slice(lastOpeningBracket + 1, firstClosingBracket));
-      }
-    } else  { // there are no brackets
-      calculateOuter(input);
+  if (/[\/\+\-\*]$/.test(input)) { // remove trailing operator if present
+    return calculationParser(input.slice(0, -1));
+  }
+  if (input.indexOf('(') !== -1) { // there are opening brackets
+    if (input.indexOf(')') === -1) { // if there are only opening brackets, remove them
+      input = input.replace(/\(/g, '');
+      return calculationParser(input); // repeat, but this time without any bracketed expressions
+    } else { // extract the first bracketed expression
+      // const firstClosingBracket = input.indexOf(')');
+      // const lastOpeningBracket = input.lastIndexOf('(', firstClosingBracket);
+      // return calculateOuter(input.slice(lastOpeningBracket + 1, firstClosingBracket));
     }
+  } else  { // there are no brackets
+    return calculateOuter(input);
   }
 }
 
 export const calculateOuter = (input) => {
-  if (input.search(/[+-/*]/) === -1) {
-    calculationParser(input);
+  if (/^\d+(\.)?(\d+)?$/.test(input)) { // return if only one number is left
+    // calculationParser(input);
+    return input;
   } else {
-    return input.replace(/^([\d\.]+)([\/\+\-\*])([\d\.]+)/, calculateSimple);
+    return calculateOuter(input.replace(/^([\d\.]+)([\/\+\-\*])([\d\.]+)/, calculateSimple));
   }
 }
 
