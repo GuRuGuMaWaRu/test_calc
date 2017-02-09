@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import CalcButton from './CalcButton';
 import { parseInput, deleteInput, prepareInput } from '../utils/parsers';
-import { calculate } from '../utils/calculation';
+import { calculationParser } from '../utils/calculation';
 import '../styles/Main.css';
 
 export default class Main extends Component {
@@ -39,7 +39,7 @@ export default class Main extends Component {
             {this.state.input}
           </div>
           <div className="Result">
-            {calculate(prepareInput(this.state.input))}
+            {/* {calculationParser(this.state.input)} */}
           </div>
           <div className="Message">
             {/* {this.state.message} */}

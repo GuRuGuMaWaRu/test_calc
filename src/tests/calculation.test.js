@@ -1,15 +1,7 @@
 import {
-  calculate,
   calculationParser,
   calculateOuter,
   calculateSimple } from '../utils/calculation';
-
-describe('calculate', () => {
-  it('creates code from string', () => {
-    expect(calculate('5+5')).toEqual(10);
-    expect(calculate('5/2')).toEqual(2.5);
-  });
-});
 
 describe('calculationParser', () => {
   it.skip('extracts the first bracketed expression', () => {
@@ -18,8 +10,26 @@ describe('calculationParser', () => {
   it('returns input if there is only one number without brackets and operators', () => {
     expect(calculationParser('6546')).toEqual('6546');
   });
-  it('adds two numbers', () => {
+  it('performs calculation (without brackets)', () => {
     expect(calculationParser('6+4')).toEqual('10');
+    expect(calculationParser('6+4+10')).toEqual('20');
+    expect(calculationParser('6*6')).toEqual('36');
+    expect(calculationParser('81/9')).toEqual('9');
+    expect(calculationParser('6.7+3.4')).toEqual('10.1');
+    expect(calculationParser('6.41+1.543')).toEqual('7.953');
+  });
+  it('performs calculation (with brackets)', () => {
+    expect(calculationParser('(5+5)')).toEqual('10');
+    expect(calculationParser('(5+5)+(10+10)')).toEqual('30');
+    expect(calculationParser('(5*5)+(10/2)')).toEqual('30');
+    expect(calculationParser('(50*10)/(10*1)')).toEqual('50');
+    expect(calculationParser('(((((50*10)/(10*1)')).toEqual('50');
+    expect(calculationParser('(((((50*10)/(10*1')).toEqual('50');
+  });
+  it('deals with long floating point numbers', () => {
+    expect(calculationParser('(5.32453245+2.123456789)')).toEqual('7.447989239');
+    expect(calculationParser('(5.1234567891+2.1234567891)')).toEqual('7.2469135782');
+
   });
   it('removes a trailing operator if there is any one present', () => {
     expect(calculationParser('65+')).toEqual('65');
@@ -30,14 +40,14 @@ describe('calculationParser', () => {
 });
 
 describe('calculateOuter', () => {
-  it.skip('returns input unchanged if there are no operators', () => {
+  it('returns input unchanged if there are no operators', () => {
     expect(calculateOuter('54667546')).toEqual('54667546');
   });
-  it('replaces the first [number][operator][number] expression with the result', () => {
+  it('returns the result of complex math calculation', () => {
     expect(calculateOuter('5+5+5')).toEqual('15');
   });
-  it.skip('replaces the first [number][operator][number] expression with the result', () => {
-    expect(calculateOuter('5.5+5+5')).toEqual('10.5+5');
+  it('returns the result of complex math calculation (with floats)', () => {
+    expect(calculateOuter('5.5+5+5')).toEqual('15.5');
   });
 });
 
