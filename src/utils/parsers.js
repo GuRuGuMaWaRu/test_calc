@@ -1,6 +1,26 @@
+/*
+1 - 15 digits limit
+2 - nice display with thousand separators
+3 - font size changes when the number of digits is high enough
+4 - move input to a new line after 20 characters (20 chars per line)
+5 - use E+19 notation for numbers longer than 15 digits
+
+*/
+
+
 export const parseInput = (previousInput, currentInput) => {
   const totalInput = previousInput + currentInput;
   const handlers = [
+    {
+      value: /\+\/\-/,
+      test: /\(\-(\d+)?\+\/\-$/, //=== remove a negative sign
+      convert: '$1'
+    },
+    {
+      value: /\+\/\-/,
+      test: /(\d+)?\+\/\-$/, //=== enter a negative sign
+      convert: '(-$1'
+    },
     {
       value: /\d/,
       test: /(^|[\/\+\-\*\(])0(\d)/, //=== solve leading zero issue
@@ -35,11 +55,6 @@ export const parseInput = (previousInput, currentInput) => {
       value: /\(\)/,
       test: /([\/\+\-\*])\(\)/, //=== solve 'input opening bracket after an operator' issue
       convert: '$1/)'
-    },
-    {
-      value: /\+\\\-/,
-      test: /\+\\\-$/, //=== enter a negative sign
-      convert: '(-'
     }
   ];
 
