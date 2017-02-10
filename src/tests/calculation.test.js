@@ -33,6 +33,9 @@ describe('calculationParser', () => {
     expect(calculationParser('(5.32453245+2.123456789)')).toEqual('7.447989239');
     expect(calculationParser('(5.1234567891+2.1234567891)')).toEqual('7.2469135782');
   });
+  it('allows negative numbers', () => {
+    expect(calculationParser('5-10')).toEqual('-5')
+  });
 });
 
 describe('calculateOuter', () => {
