@@ -4,11 +4,14 @@ import {
   calculateSimple } from '../utils/calculation';
 
 describe('calculationParser', () => {
-  it.skip('extracts the first bracketed expression', () => {
-    expect(calculationParser('(6+2)+(8+1)')).toEqual('6+2');
-  });
   it('returns input if there is only one number without brackets and operators', () => {
-    expect(calculationParser('6546')).toEqual('6546');
+    expect(calculationParser('6546')).toEqual('6,546');
+  });
+  it('removes a trailing operator if there is any one present', () => {
+    expect(calculationParser('65+')).toEqual('65');
+  });
+  it('removes all opening brackets if there are no closing brackets', () => {
+    expect(calculationParser('((67')).toEqual('67');
   });
   it('performs calculation (without brackets)', () => {
     expect(calculationParser('6+4')).toEqual('10');
@@ -29,13 +32,6 @@ describe('calculationParser', () => {
   it('deals with long floating point numbers', () => {
     expect(calculationParser('(5.32453245+2.123456789)')).toEqual('7.447989239');
     expect(calculationParser('(5.1234567891+2.1234567891)')).toEqual('7.2469135782');
-
-  });
-  it('removes a trailing operator if there is any one present', () => {
-    expect(calculationParser('65+')).toEqual('65');
-  });
-  it('removes all opening brackets if there are no closing brackets', () => {
-    expect(calculationParser('((67')).toEqual('67');
   });
 });
 

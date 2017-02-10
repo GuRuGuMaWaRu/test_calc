@@ -1,6 +1,7 @@
 export const calculationParser = (input) => {
   if (/^\d+(\.)?(\d+)?$/.test(input)) { // returns if there is only one number left
-    return input;
+    input = Number(input);
+    return input.toLocaleString('en-US', {maximumFractionDigits: 10});;
   }
   if (/[\/\+\-\*]$/.test(input)) { // removes trailing operator if present
     return calculationParser(input.slice(0, -1));
