@@ -1,5 +1,5 @@
 export const calculationParser = (input) => {
-  if (/^\d+(\.)?(\d+)?$/.test(input)) { // returns if there is only one number left
+  if (/^(\-)?\d+(\.)?(\d+)?$/.test(input)) { // returns if there is only one number left
     input = Number(input);
     return input.toLocaleString('en-US', {maximumFractionDigits: 10});;
   }
@@ -25,7 +25,7 @@ export const calculationParser = (input) => {
 }
 
 export const calculateOuter = (input) => {
-  if (/^\d+(\.)?(\d+)?$/.test(input)) { // return if only one number is left
+  if (/^(\-)?\d+(\.)?(\d+)?$/.test(input)) { // return if only one number is left
     return input.toLocaleString('en-US', {maximumFractionDigits: 10}); // ???????????????????????? doesnt work because its a number and not a string
   } else {
     return calculateOuter(input.replace(/^([\d\.]+)([\/\+\-\*])([\d\.]+)/, calculateSimple));
