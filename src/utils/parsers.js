@@ -27,24 +27,19 @@ export const parseInput = (previousInput, currentInput) => {
       convert: ''
     },
     {
-      value: /\(\)/, //=== solve leading brackets issue
-      test: /^(\(+)?\)/,
+      value: /\(\)/,
+      test: /^(\(+)?\)/, //=== solve leading brackets issue
       convert: '$1'
     },
     {
-      value: /\(\)/, //=== solve 'input opening bracket after an operator' issue
-      test: /([\/\+\-\*])\(\)/,
+      value: /\(\)/,
+      test: /([\/\+\-\*])\(\)/, //=== solve 'input opening bracket after an operator' issue
       convert: '$1/)'
     },
     {
-      value: /\+\/\-/,
-      test: /\+\/\-/,
+      value: /\+\\\-/,
+      test: /\+\\\-$/, //=== enter a negative sign
       convert: '(-'
-    },
-    {
-      value: /\+\/\-/,
-      test: /\(\-$/,
-      convert: ''
     }
   ];
 
