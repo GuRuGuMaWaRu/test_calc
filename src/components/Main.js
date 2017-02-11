@@ -10,14 +10,21 @@ export default class Main extends Component {
     this.state = {
       input: '',
       buttons: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '*', '/', '.', '()', '+/-'],
-      result: ''
+      result: '',
+      message: ''
     };
   }
 
   handleClick = (value) => {
-    this.setState({
-      input: parseInput(this.state.input, value)
-    });
+    if (this.state.input.length === 15) { // set max character limit to 15
+      this.setState({
+        message: 'Maximum number of characters reached: 15'
+      });
+    } else {
+      this.setState({
+        input: parseInput(this.state.input, value)
+      });
+    }
   }
 
   handleDelete = () => {
@@ -42,7 +49,7 @@ export default class Main extends Component {
             {/* {calculationParser(this.state.input)} */}
           </div>
           <div className="Message">
-            {/* {this.state.message} */}
+            {this.state.message}
           </div>
         </div>
         <div>

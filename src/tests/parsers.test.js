@@ -61,9 +61,6 @@ describe('raw input parser', () => {
     expect(parseInput('(-100', '+/-')).toEqual('100');
     expect(parseInput('55+(-55', '+/-')).toEqual('55+55');
   });
-  it('limits the number of digits in any number to 15', () => {
-    expect(parseInput('123456789123456', '7')).toEqual('123456789123456');
-  });
 });
 
 describe('deleteInput', () => {

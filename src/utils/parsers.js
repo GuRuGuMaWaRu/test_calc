@@ -18,7 +18,7 @@ export const parseInput = (previousInput, currentInput) => {
     },
     {
       value: /\+\/\-/,
-      test: /(\d+)?\+\/\-$/, //=== enter a negative sign
+      test: /(\d+)?\+\/\-$/, //=== add a negative sign
       convert: '(-$1'
     },
     {
