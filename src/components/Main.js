@@ -20,14 +20,13 @@ export default class Main extends Component {
       this.setState({
         message: 'Maximum number of characters reached: 15'
       });
-      window.setTimeout(() => {
+      window.setTimeout(() => { // hide message after a second
         this.setState({message: ''})
       }, 800);
     } else {
       this.setState({
         input: parseInput(this.state.input, value)
       });
-      calculationParser(this.state.input);
     }
   }
 
@@ -35,12 +34,6 @@ export default class Main extends Component {
     this.setState(prevState => ({
       input: deleteInput(prevState.input)
     }));
-  }
-
-  calculateResult = () => {
-    this.setState({
-      result: calculationParser(this.state.input)
-    });
   }
 
   render() {
@@ -56,7 +49,7 @@ export default class Main extends Component {
             {this.state.input}
           </div>
           <div className="Result">
-            {this.state.result}
+            {calculationParser(this.state.input)}
           </div>
           <div className="Message">
             {this.state.message}

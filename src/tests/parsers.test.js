@@ -68,13 +68,3 @@ describe('deleteInput', () => {
     expect(deleteInput('67+232')).toEqual('67+23');
   });
 });
-
-// describe('prepareInput', () => {
-//   it('deletes the last character if it is one of the following "+-/*("', () => {
-//     expect(prepareInput('67+')).toEqual('67');
-//     expect(prepareInput('67+(')).toEqual('67+');
-//     expect(prepareInput('67-')).toEqual('67');
-//     expect(prepareInput('67/')).toEqual('67');
-//     expect(prepareInput('67*')).toEqual('67');
-//   })
-// })

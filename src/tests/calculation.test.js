@@ -38,6 +38,11 @@ describe('calculationParser', () => {
     expect(calculationParser('5-10')).toEqual('-5');
     expect(calculationParser('10-686')).toEqual('-676');
   });
+  it('uses thousand separators', () => {
+    expect(calculationParser('28000')).toEqual('28,000');
+    expect(calculationParser('999+1')).toEqual('1,000');
+    expect(calculationParser('28000+100000')).toEqual('128,000');
+  })
 });
 
 describe('calculateOuter', () => {

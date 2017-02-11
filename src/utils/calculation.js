@@ -24,14 +24,14 @@ export const calculateSimple = (_match, firstNumber, operator, secondNumber) => 
 
 export const calculateOuter = (input) => {
   if (/^(\-)?\d+(\.)?(\d+)?$/.test(input)) { // return if only one number is left
-    return input.toLocaleString('en-US', {maximumFractionDigits: 10}); // ???????????????????????? doesnt work because its a number and not a string
+    return input;
   } else {
     return calculateOuter(input.replace(/^([\d\.]+)([\/\+\-\*])([\d\.]+)/, calculateSimple));
   }
 }
 
 export const calculationParser = (input) => {
-  if (input.length === 0) {
+  if (input.length === 0) { // solves issue with empty input
     return input;
   }
   if (/^(\-)?\d+(\.)?(\d+)?$/.test(input)) { // returns if there is only one number left
