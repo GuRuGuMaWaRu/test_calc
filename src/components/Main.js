@@ -20,6 +20,9 @@ export default class Main extends Component {
       this.setState({
         message: 'Maximum number of characters reached: 15'
       });
+      window.setTimeout(() => {
+        this.setState({message: ''})
+      }, 800);
     } else {
       this.setState({
         input: parseInput(this.state.input, value)
