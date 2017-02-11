@@ -69,12 +69,12 @@ describe('deleteInput', () => {
   });
 });
 
-describe('prepareInput', () => {
-  it('deletes the last character if it is one of the following "+-/*("', () => {
-    expect(prepareInput('67+')).toEqual('67');
-    expect(prepareInput('67+(')).toEqual('67+');
-    expect(prepareInput('67-')).toEqual('67');
-    expect(prepareInput('67/')).toEqual('67');
-    expect(prepareInput('67*')).toEqual('67');
-  })
-})
+// describe('prepareInput', () => {
+//   it('deletes the last character if it is one of the following "+-/*("', () => {
+//     expect(prepareInput('67+')).toEqual('67');
+//     expect(prepareInput('67+(')).toEqual('67+');
+//     expect(prepareInput('67-')).toEqual('67');
+//     expect(prepareInput('67/')).toEqual('67');
+//     expect(prepareInput('67*')).toEqual('67');
+//   })
+// })

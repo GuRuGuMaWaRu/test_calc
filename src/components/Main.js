@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import CalcButton from './CalcButton';
-import { parseInput, deleteInput, prepareInput } from '../utils/parsers';
+import { parseInput, deleteInput } from '../utils/parsers';
 import { calculationParser } from '../utils/calculation';
 import '../styles/Main.css';
 
@@ -26,7 +26,9 @@ export default class Main extends Component {
     } else {
       this.setState({
         input: parseInput(this.state.input, value)
-      });
+      }, this.setState({
+        result: calculationParser(this.state.input)
+      }));
     }
   }
 
@@ -49,7 +51,7 @@ export default class Main extends Component {
             {this.state.input}
           </div>
           <div className="Result">
-            {/* {calculationParser(this.state.input)} */}
+            {this.state.result}
           </div>
           <div className="Message">
             {this.state.message}
