@@ -26,9 +26,8 @@ export default class Main extends Component {
     } else {
       this.setState({
         input: parseInput(this.state.input, value)
-      }, this.setState({
-        result: calculationParser(this.state.input)
-      }));
+      });
+      calculationParser(this.state.input);
     }
   }
 
@@ -36,6 +35,12 @@ export default class Main extends Component {
     this.setState(prevState => ({
       input: deleteInput(prevState.input)
     }));
+  }
+
+  calculateResult = () => {
+    this.setState({
+      result: calculationParser(this.state.input)
+    });
   }
 
   render() {

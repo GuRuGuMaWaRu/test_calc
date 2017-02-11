@@ -31,6 +31,9 @@ export const calculateOuter = (input) => {
 }
 
 export const calculationParser = (input) => {
+  if (input.length === 0) {
+    return input;
+  }
   if (/^(\-)?\d+(\.)?(\d+)?$/.test(input)) { // returns if there is only one number left
     input = Number(input);
     return input.toLocaleString('en-US', {maximumFractionDigits: 10});
