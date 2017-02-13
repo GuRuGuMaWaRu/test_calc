@@ -10,13 +10,13 @@ export const calculateSimple = (_match, firstNumber, operator, secondNumber) => 
   }
   switch(operator) { // perform a calculation depending on passed operator
     case '+':
-      return (firstNumber + secondNumber).toString();
+      return firstNumber + secondNumber;
     case '-':
-      return (firstNumber - secondNumber).toString();
+      return firstNumber - secondNumber;
     case '*':
-      return (firstNumber * secondNumber).toString();
+      return firstNumber * secondNumber;
     case '/':
-      return (firstNumber / secondNumber).toString();
+      return firstNumber / secondNumber;
     default:
       return '';
   }
@@ -24,7 +24,8 @@ export const calculateSimple = (_match, firstNumber, operator, secondNumber) => 
 
 export const calculateOuter = (input) => {
   if (/^(\-)?\d+(\.)?(\d+)?$/.test(input)) { // return if only one number is left
-    return input;
+    input = Number(input);
+    return input.toLocaleString('en-US', {maximumFractionDigits: 10});
   } else {
     return calculateOuter(input.replace(/^([\d\.]+)([\/\+\-\*])([\d\.]+)/, calculateSimple));
   }
@@ -33,10 +34,6 @@ export const calculateOuter = (input) => {
 export const calculationParser = (input) => {
   if (input.length === 0) { // solves issue with empty input
     return input;
-  }
-  if (/^(\-)?\d+(\.)?(\d+)?$/.test(input)) { // returns if there is only one number left
-    input = Number(input);
-    return input.toLocaleString('en-US', {maximumFractionDigits: 10});
   }
   if (/[\/\+\-\*]$/.test(input)) { // removes trailing operator if present
     return calculationParser(input.slice(0, -1));

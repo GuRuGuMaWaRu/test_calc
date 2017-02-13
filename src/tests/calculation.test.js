@@ -47,7 +47,7 @@ describe('calculationParser', () => {
 
 describe('calculateOuter', () => {
   it('returns input unchanged if there are no operators', () => {
-    expect(calculateOuter('54667546')).toEqual('54667546');
+    expect(calculateOuter('54667546')).toEqual('54,667,546');
   });
   it('returns the result of complex math calculation', () => {
     expect(calculateOuter('5+5+5')).toEqual('15');
@@ -59,15 +59,15 @@ describe('calculateOuter', () => {
 
 describe('calculateSimple', () => {
   it('sums two simple numbers', () => {
-    expect(calculateSimple('', '5', '+', '5')).toEqual('10');
+    expect(calculateSimple('', '5', '+', '5')).toEqual(10);
   });
   it('subtracts the second number from the first', () => {
-    expect(calculateSimple('', '10', '-', '5')).toEqual('5');
+    expect(calculateSimple('', '10', '-', '5')).toEqual(5);
   });
   it('divides the first number by the second', () => {
-    expect(calculateSimple('', '10', '/', '5')).toEqual('2');
+    expect(calculateSimple('', '10', '/', '5')).toEqual(2);
   });
   it('multiplies the first number by the second', () => {
-    expect(calculateSimple('', '10', '*', '5')).toEqual('50');
+    expect(calculateSimple('', '10', '*', '5')).toEqual(50);
   });
 });
