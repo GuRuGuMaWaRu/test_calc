@@ -23,15 +23,18 @@ export const calculateSimple = (_match, firstNumber, operator, secondNumber) => 
 }
 
 export const calculateOuter = (input) => {
+  // console.log('calculateOuter',input);
   if (/^(\-)?\d+(\.)?(\d+)?$/.test(input)) { // return if only one number is left
     input = Number(input);
     return input.toLocaleString('en-US', {maximumFractionDigits: 10});
   } else {
+    // console.log(input.match(/^([\d\.]+)([\/\+\-\*])([\d\.]+)/));
     return calculateOuter(input.replace(/^([\d\.]+)([\/\+\-\*])([\d\.]+)/, calculateSimple));
   }
 }
 
 export const calculationParser = (input) => {
+  // console.log('calculationParser',input);
   if (input.length === 0) { // solves issue with empty input
     return input;
   }
@@ -48,6 +51,9 @@ export const calculationParser = (input) => {
       const inputBefore = input.slice(0, lastOpeningBracket);
       const inputAfter = input.slice(firstClosingBracket + 1);
       const inputInBrackets = input.slice(lastOpeningBracket + 1, firstClosingBracket);
+      // console.log('inputInBrackets', inputInBrackets);
+      // console.log('inputBefore', inputBefore);
+      // console.log('inputAfter', inputAfter);
       const newInput = inputBefore + calculateOuter(inputInBrackets) + inputAfter;
       return calculationParser(newInput);
     }

@@ -61,6 +61,12 @@ describe('raw input parser', () => {
     expect(parseInput('(-100', '+/-')).toEqual('100');
     expect(parseInput('55+(-55', '+/-')).toEqual('55+55');
   });
+  it('deals correctly with border cases', () => {
+    expect(parseInput('2+', '()')).toEqual('2+(');
+  });
+  it('deals correctly with border cases (2)', () => {
+    expect(parseInput('(2)*(2-3', '()')).toEqual('(2)*(2-3)');
+  });
 });
 
 describe('deleteInput', () => {

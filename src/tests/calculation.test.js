@@ -28,6 +28,10 @@ describe('calculationParser', () => {
     expect(calculationParser('(50*10)/(10*1)')).toEqual('50');
     expect(calculationParser('(((((50*10)/(10*1)')).toEqual('50');
     expect(calculationParser('(((((50*10)/(10*1')).toEqual('50');
+    expect(calculationParser('(2)*(3-2)')).toEqual('2');
+    // expect(calculationParser('(2)*(2-3)')).toEqual('-2');
+    // expect(calculationParser('(23)*(2-87)')).toEqual('-1,955');
+    // expect(calculationParser('(23)*(2-87')).toEqual('-1,955');
   });
   it('deals with long floating point numbers', () => {
     expect(calculationParser('(5.32453245+2.123456789)')).toEqual('7.447989239');
@@ -42,7 +46,11 @@ describe('calculationParser', () => {
     expect(calculationParser('28000')).toEqual('28,000');
     expect(calculationParser('999+1')).toEqual('1,000');
     expect(calculationParser('28000+100000')).toEqual('128,000');
-  })
+  });
+  it('deals with border cases', () => {
+    expect(calculationParser('2+')).toEqual('2');
+    expect(calculationParser('2+(')).toEqual('2');
+  });
 });
 
 describe('calculateOuter', () => {
