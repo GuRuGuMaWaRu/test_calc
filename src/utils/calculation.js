@@ -29,7 +29,7 @@ export const calculateOuter = (input) => {
     return input.toLocaleString('en-US', {maximumFractionDigits: 10});
   } else {
     // console.log(input.match(/^([\d\.]+)([\/\+\-\*])([\d\.]+)/));
-    return calculateOuter(input.replace(/^([\d\.]+)([\/\+\-\*])([\d\.]+)/, calculateSimple));
+    return calculateOuter(input.replace(/^(\-?[\d\.]+)([\/\+\-\*])(\-?[\d\.]+)/, calculateSimple));
   }
 }
 
@@ -51,9 +51,6 @@ export const calculationParser = (input) => {
       const inputBefore = input.slice(0, lastOpeningBracket);
       const inputAfter = input.slice(firstClosingBracket + 1);
       const inputInBrackets = input.slice(lastOpeningBracket + 1, firstClosingBracket);
-      // console.log('inputInBrackets', inputInBrackets);
-      // console.log('inputBefore', inputBefore);
-      // console.log('inputAfter', inputAfter);
       const newInput = inputBefore + calculateOuter(inputInBrackets) + inputAfter;
       return calculationParser(newInput);
     }

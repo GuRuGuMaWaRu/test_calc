@@ -29,18 +29,27 @@ describe('calculationParser', () => {
     expect(calculationParser('(((((50*10)/(10*1)')).toEqual('50');
     expect(calculationParser('(((((50*10)/(10*1')).toEqual('50');
     expect(calculationParser('(2)*(3-2)')).toEqual('2');
-    // expect(calculationParser('(2)*(2-3)')).toEqual('-2');
-    // expect(calculationParser('(23)*(2-87)')).toEqual('-1,955');
-    // expect(calculationParser('(23)*(2-87')).toEqual('-1,955');
+  });
+  it('deals with negative numbers & brackets', () => {
+    expect(calculationParser('(2-3)')).toEqual('-1');
+    expect(calculationParser('(2-3)+')).toEqual('-1');
+    expect(calculationParser('(2-3)-1')).toEqual('-2');
+    expect(calculationParser('(2-3)+1')).toEqual('0');
+    expect(calculationParser('(2)*(2-3)')).toEqual('-2');
+    expect(calculationParser('(23)*(2-87)')).toEqual('-1,955');
+  });
+  it('deals separately with unclosed bracketed expressions', () => {
+    expect(calculationParser('(23)*(2-87')).toEqual('-1,955');
+  })
+  it('deals with negative numbers', () => {
+    expect(calculationParser('-10')).toEqual('-10');
+    expect(calculationParser('2-3')).toEqual('-1');
+    expect(calculationParser('(-1+2')).toEqual('1');
+    expect(calculationParser('5+(-2')).toEqual('3');
   });
   it('deals with long floating point numbers', () => {
     expect(calculationParser('(5.32453245+2.123456789)')).toEqual('7.447989239');
     expect(calculationParser('(5.1234567891+2.1234567891)')).toEqual('7.2469135782');
-  });
-  it('allows negative results', () => {
-    expect(calculationParser('-10')).toEqual('-10');
-    expect(calculationParser('5-10')).toEqual('-5');
-    expect(calculationParser('10-686')).toEqual('-676');
   });
   it('uses thousand separators', () => {
     expect(calculationParser('28000')).toEqual('28,000');
