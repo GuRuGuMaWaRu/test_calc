@@ -32,17 +32,17 @@ describe('raw input parser', () => {
   it('inserts a leading opening bracket', () => {
     expect(parseInput('', '()')).toEqual('(');
   });
-  it('inserts an opening bracket after an opening bracket', () => {
+  it('inserts "(" after an opening bracket', () => {
     expect(parseInput('(', '()')).toEqual('((');
     expect(parseInput('((((', '()')).toEqual('(((((');
   });
-  it('inserts a closing bracket after a number if there are unclosed open brackets', () => {
+  it('inserts ")" after a number if there are unclosed open brackets', () => {
     expect(parseInput('(67', '()')).toEqual('(67)');
     expect(parseInput('((67', '()')).toEqual('((67)');
     expect(parseInput('(55*(66', '()')).toEqual('(55*(66)');
     expect(parseInput('(55.', '()')).toEqual('(55.)');
   });
-  it('inserts an opening bracket and a multiplication operator after a number/closing bracket if there are no unclosed open brackets', () => {
+  it('inserts "*(" after a number/closing bracket if there are no unclosed open brackets', () => {
     expect(parseInput('67', '()')).toEqual('67*(');
     expect(parseInput('67.', '()')).toEqual('67.*(');
     expect(parseInput('(67)', '()')).toEqual('(67)*(');
@@ -61,7 +61,10 @@ describe('raw input parser', () => {
     expect(parseInput('(-100', '+/-')).toEqual('100');
     expect(parseInput('55+(-55', '+/-')).toEqual('55+55');
   });
-  it('deals correctly with border cases', () => {
+  it('inserts "(" after an operator', () => {
+    expect(parseInput('2*', '()')).toEqual('2*(');
+    expect(parseInput('2/', '()')).toEqual('2/(');
+    expect(parseInput('2-', '()')).toEqual('2-(');
     expect(parseInput('2+', '()')).toEqual('2+(');
   });
   it('deals correctly with border cases (2)', () => {

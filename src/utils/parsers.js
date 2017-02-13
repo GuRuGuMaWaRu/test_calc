@@ -54,7 +54,7 @@ export const parseInput = (previousInput, currentInput) => {
     {
       value: /\(\)/,
       test: /([\/\+\-\*])\(\)/, //=== solve 'input opening bracket after an operator' issue
-      convert: '$1/)'
+      convert: '$1('
     }
   ];
 
