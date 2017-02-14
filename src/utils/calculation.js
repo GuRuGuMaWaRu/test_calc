@@ -23,6 +23,7 @@ export const calculateSimple = (_match, firstNumber, operator, secondNumber) => 
 }
 
 export const calculateOuter = (input) => {
+  // console.log(input);
   if (/^(\-)?\d+(\.)?(\d+)?$/.test(input)) { // return if only one number is left
     input = Number(input);
     return input.toLocaleString('en-US', {maximumFractionDigits: 10});
@@ -36,18 +37,19 @@ export const calculationParser = (input) => {
     return input;
   }
   if (/[\/\+\-\*]$/.test(input)) { // removes trailing operator if present
-    calculationParser(input.slice(0, -1));
+    return calculationParser(input.slice(0, -1));
   }
   if (input.indexOf('(') !== -1) { // follows this branch if there are opening brackets
     if (input.indexOf(')') === -1) { // if there are only opening brackets, removes them
       return calculationParser(input.replace(/\(/g, '')); // calls calculationParser again, but this time without brackets
     } else { // extracts the first bracketed expression
-      const expressionStart = input.indexOf('(');
-      const expressionEnd = input.indexOf(')') || input.length;
-      const inputTail = expressionEnd === input.length ? '' : input.slice(expressionEnd);
+      const expressionStart = input.lastIndexOf('(');
+      const expressionEnd = input.indexOf(')', expressionStart) || input.length - 1;
+      const inputHead = input.slice(0, expressionStart);
+      const inputTail = expressionEnd < input.length - 1 ? input.slice(expressionEnd + 1) : '';
 
-      let expression = input.slice(expressionStart, expressionEnd + 1);
-      expression = expression.replace(/[\(\)]+/, ''); // remove all brackets
+      let expression = input.slice(expressionStart, expressionEnd);
+      expression = expression.replace(/\(/g, ''); // remove all brackets
 
       // const lastOpeningBracket = input.lastIndexOf('(');
       // let expression = input.slice(lastOpeningBracket + 1);
@@ -60,8 +62,8 @@ export const calculationParser = (input) => {
       // const inputAfter = input.slice(firstClosingBracket + 1);
       // const inputInBrackets = input.slice(lastOpeningBracket + 1, firstClosingBracket);
       // const newInput = inputBefore + calculateOuter(inputInBrackets) + inputAfter;
-      console.log(expression);
-      return calculationParser(calculateOuter(expression) + inputTail);
+      // console.log(expression);
+      return calculationParser(inputHead + calculateOuter(expression) + inputTail);
     }
   } else  { // there are no brackets
     return calculateOuter(input);

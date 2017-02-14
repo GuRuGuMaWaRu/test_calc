@@ -7,7 +7,7 @@ describe('calculationParser', () => {
   it('returns input if there is only one number without brackets and operators', () => {
     expect(calculationParser('6546')).toEqual('6,546');
   });
-  it('removes a trailing operator if there is any one present', () => {
+  it('removes trailing operator', () => {
     expect(calculationParser('65+')).toEqual('65');
   });
   it('removes all opening brackets if there are no closing brackets', () => {
@@ -23,13 +23,13 @@ describe('calculationParser', () => {
   });
   it('performs calculation (with brackets)', () => {
     expect(calculationParser('(5+5)')).toEqual('10');
-    // expect(calculationParser('(5+5)+(10+10)')).toEqual('30');
-    // expect(calculationParser('(5*5)+(10/2)')).toEqual('30');
-    // expect(calculationParser('(50*10)/(10*1)')).toEqual('50');
-    // expect(calculationParser('(((((50*10)/(10*1)')).toEqual('50');
-    // expect(calculationParser('(((((50*10)/(10*1')).toEqual('50');
+    expect(calculationParser('(5+5)+(10+10)')).toEqual('30');
+    expect(calculationParser('(5*5)+(10/2)')).toEqual('30');
+    expect(calculationParser('(50*10)/(10*1)')).toEqual('50');
+    expect(calculationParser('(((((50*10)/(10*1)')).toEqual('50');
+    expect(calculationParser('(((((50*10)/(10*1')).toEqual('50');
     // expect(calculationParser('(2)*(3-2)')).toEqual('2');
-    // expect(calculationParser('(5+5)+(')).toEqual('30');
+    // expect(calculationParser('(5+5)+(')).toEqual('10');
     // expect(calculationParser('(2+(3*(4*2*(2)+6)/3)*5)')).toEqual('112');
   });
   it('deals with negative numbers & brackets', () => {
@@ -50,8 +50,8 @@ describe('calculationParser', () => {
     expect(calculationParser('5+(-2')).toEqual('3');
   });
   it('deals with long floating point numbers', () => {
-    // expect(calculationParser('(5.32453245+2.123456789)')).toEqual('7.447989239');
-    // expect(calculationParser('(5.1234567891+2.1234567891)')).toEqual('7.2469135782');
+    expect(calculationParser('(5.32453245+2.123456789)')).toEqual('7.447989239');
+    expect(calculationParser('(5.1234567891+2.1234567891)')).toEqual('7.2469135782');
   });
   it('uses thousand separators', () => {
     expect(calculationParser('28000')).toEqual('28,000');
