@@ -91,11 +91,3 @@ export const parseInput = (previousInput, currentInput) => {
 export const deleteInput = (input) => {
   return input.slice(0, -1);
 }
-
-// export const prepareInput = (input) => {
-//   if (/[+(-/*]$/.test(input)) {
-//     return input.slice(0, -1);
-//   } else {
-//     return input;
-//   }
-// }
