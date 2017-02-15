@@ -36,7 +36,7 @@ export const calculationParser = (input) => {
   if (input.length === 0) { // solves issue with empty input
     return input;
   }
-  if (/[\/\+\-\*]$/.test(input)) { // removes trailing operator if present
+  if (/[\/\+\-\*\(]$/.test(input)) { // removes trailing operator ot bracket if present
     return calculationParser(input.slice(0, -1));
   }
   if (input.indexOf('(') !== -1) { // follows this branch if there are opening brackets
@@ -48,8 +48,7 @@ export const calculationParser = (input) => {
       const inputHead = input.slice(0, expressionStart);
       const inputTail = expressionEnd < input.length - 1 ? input.slice(expressionEnd + 1) : '';
 
-      let expression = input.slice(expressionStart, expressionEnd);
-      expression = expression.replace(/\(/g, ''); // remove all brackets
+      let expression = input.slice(expressionStart + 1, expressionEnd);
 
       // const lastOpeningBracket = input.lastIndexOf('(');
       // let expression = input.slice(lastOpeningBracket + 1);

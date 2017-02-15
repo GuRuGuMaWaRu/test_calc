@@ -67,6 +67,12 @@ describe('raw input parser', () => {
     expect(parseInput('2-', '()')).toEqual('2-(');
     expect(parseInput('2+', '()')).toEqual('2+(');
   });
+  it('does not allow operators after "("', () => {
+    expect(parseInput('(', '+')).toEqual('(');
+    expect(parseInput('(', '-')).toEqual('(');
+    expect(parseInput('(', '*')).toEqual('(');
+    expect(parseInput('(', '/')).toEqual('(');
+  });
   it('deals correctly with border cases (2)', () => {
     expect(parseInput('(2)*(2-3', '()')).toEqual('(2)*(2-3)');
   });
