@@ -25,44 +25,44 @@ export const calculateSimple = (_match, firstNumber, operator, secondNumber) => 
 export const calculateOuter = (input) => {
   // console.log(input);
   if (/^(\-)?\d+(\.)?(\d+)?$/.test(input)) { // return if only one number is left
+    // console.log('calculateOuter output', input);
     input = Number(input);
     return input.toLocaleString('en-US', {maximumFractionDigits: 10});
   } else {
+    // console.log('calculateOuter input', input);
     return calculateOuter(input.replace(/^(\-?[\d\.]+)([\/\+\-\*])(\-?[\d\.]+)/, calculateSimple));
   }
 }
 
+export const calculateBracketedExpression = (input) => {
+  const expressionStart = input.lastIndexOf('(');
+  const expressionEnd = input.indexOf(')', expressionStart) === -1
+    ? input.length
+    : input.indexOf(')', expressionStart);
+  const inputHead = input.slice(0, expressionStart);
+  const inputTail = expressionEnd === input.length
+    ? ''
+    : input.slice(expressionEnd + 1);
+  const expression = expressionEnd === input.length
+    ? input.slice(expressionStart + 1)
+    : input.slice(expressionStart + 1, expressionEnd);
+
+  // console.log('bracketedExpression', expression);
+  return inputHead + calculateOuter(expression) + inputTail;
+}
+
 export const calculationParser = (input) => {
-  if (input.length === 0) { // solves issue with empty input
+  if (input.length === 0) { // solve issue with empty input
     return input;
   }
-  if (/[\/\+\-\*\(]$/.test(input)) { // removes trailing operator ot bracket if present
-    return calculationParser(input.slice(0, -1));
+  if (/[\/\+\-\*\(]$/.test(input)) {
+    return calculationParser(input.slice(0, -1)); // remove trailing operator ot bracket if present
   }
-  if (input.indexOf('(') !== -1) { // follows this branch if there are opening brackets
-    if (input.indexOf(')') === -1) { // if there are only opening brackets, removes them
-      return calculationParser(input.replace(/\(/g, '')); // calls calculationParser again, but this time without brackets
-    } else { // extracts the first bracketed expression
-      const expressionStart = input.lastIndexOf('(');
-      const expressionEnd = input.indexOf(')', expressionStart) || input.length - 1;
-      const inputHead = input.slice(0, expressionStart);
-      const inputTail = expressionEnd < input.length - 1 ? input.slice(expressionEnd + 1) : '';
-
-      let expression = input.slice(expressionStart + 1, expressionEnd);
-
-      // const lastOpeningBracket = input.lastIndexOf('(');
-      // let expression = input.slice(lastOpeningBracket + 1);
-      // const inputBefore = input.slice(0, lastOpeningBracket);
-
-      // expression = expression.replace(/\)/g, ''); // remove all closing brackets
-
-      // const firstClosingBracket = input.indexOf(')');
-      // const lastOpeningBracket = input.lastIndexOf('(', firstClosingBracket);
-      // const inputAfter = input.slice(firstClosingBracket + 1);
-      // const inputInBrackets = input.slice(lastOpeningBracket + 1, firstClosingBracket);
-      // const newInput = inputBefore + calculateOuter(inputInBrackets) + inputAfter;
-      // console.log(expression);
-      return calculationParser(inputHead + calculateOuter(expression) + inputTail);
+  if (input.indexOf('(') !== -1) { // follow this branch if there are opening brackets
+    if (input.indexOf(')') === -1) { // if there are only opening brackets, remove them
+      return calculationParser(input.replace(/\(/g, '')); // call calculationParser again, but this time without brackets
+    } else {
+      return calculationParser(calculateBracketedExpression(input)); // calculate one bracketed expression & repeat
     }
   } else  { // there are no brackets
     return calculateOuter(input);
