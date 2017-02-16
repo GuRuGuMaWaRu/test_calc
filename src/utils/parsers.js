@@ -88,5 +88,9 @@ export const deleteInput = (input) => {
 }
 
 export const beatifyInput = (input) => {
-  return input;
+  function replaceNumber(_match, number) {
+    number = Number(number);
+    return number.toLocaleString('en-US', {maximumFractionDigits: 10});
+  }
+  return input.replace(/([\d\.]+)/, replaceNumber);
 }
