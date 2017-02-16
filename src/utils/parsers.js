@@ -47,6 +47,11 @@ export const parseInput = (previousInput, currentInput) => {
       convert: ''
     },
     {
+      value: /[\/\+\*]/,
+      test: /(\()[\/\+\*]/, //=== solve "(+", "(*", and "(/" issue
+      convert: '$1'
+    },
+    {
       value: /\(\)/,
       test: /^(\(+)?\)/, //=== solve leading brackets issue
       convert: '$1'
