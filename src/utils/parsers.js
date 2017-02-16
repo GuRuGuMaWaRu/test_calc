@@ -1,13 +1,3 @@
-/*
-//1 - 15 digits limit
-2 - nice display with thousand separators
-3 - font size changes when the number of digits is high enough
-4 - move input to a new line after 20 characters (20 chars per line)
-5 - use E+19 notation for numbers longer than 15 digits
-
-*/
-
-
 export const parseInput = (previousInput, currentInput) => {
   const totalInput = previousInput + currentInput;
   const handlers = [
@@ -95,4 +85,8 @@ export const parseInput = (previousInput, currentInput) => {
 
 export const deleteInput = (input) => {
   return input.slice(0, -1);
+}
+
+export const beatifyInput = (input) => {
+  return input;
 }

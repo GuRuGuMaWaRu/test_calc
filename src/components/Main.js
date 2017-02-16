@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
 import CalcButton from './CalcButton';
-import { parseInput, deleteInput } from '../utils/parsers';
+import { parseInput, deleteInput, beatifyInput } from '../utils/parsers';
 import { calculationParser } from '../utils/calculation';
 import '../styles/Main.css';
 
+/*
+//1 - 15 digits limit
+2 - nice display with thousand separators
+3 - font size changes when the number of digits is high enough
+4 - move input to a new line after 20 characters (20 chars per line)
+5 - use E+19 notation for numbers longer than 15 digits
+
+*/
 export default class Main extends Component {
   constructor(props) {
     super(props);
@@ -46,7 +54,7 @@ export default class Main extends Component {
         <div>
           <h4>Display</h4>
           <div className="Display">
-            {this.state.input}
+            {beatifyInput(this.state.input)}
           </div>
           <div className="Result">
             {calculationParser(this.state.input)}
