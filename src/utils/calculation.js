@@ -23,14 +23,13 @@ export const calculateSimple = (_match, firstNumber, operator, secondNumber) => 
 }
 
 export const calculateOuter = (input) => {
-  // console.log(input);
   if (/^(\-)?\d+(\.)?(\d+)?$/.test(input)) { // return if only one number is left
-    // console.log('calculateOuter output', input);
     input = Number(input);
     return input.toLocaleString('en-US', {maximumFractionDigits: 10});
   } else {
-    // console.log('calculateOuter input', input);
-    return calculateOuter(input.replace(/^(\-?[\d\.]+)([\/\+\-\*])(\-?[\d\.]+)/, calculateSimple));
+    return input.indexOf('*') === -1
+      ? calculateOuter(input.replace(/^(\-?[\d\.]+)([\/\+\-])(\-?[\d\.]+)/, calculateSimple)) // all operations but multiplication
+      : calculateOuter(input.replace(/(\-?[\d\.]+)([\*])(\-?[\d\.]+)/, calculateSimple));
   }
 }
 
@@ -47,7 +46,6 @@ export const calculateBracketedExpression = (input) => {
     ? input.slice(expressionStart + 1)
     : input.slice(expressionStart + 1, expressionEnd);
 
-  // console.log('bracketedExpression', expression);
   return inputHead + calculateOuter(expression) + inputTail;
 }
 

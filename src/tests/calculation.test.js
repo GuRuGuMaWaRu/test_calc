@@ -26,7 +26,6 @@ describe('calculationParser', () => {
     expect(calculationParser('(5+5)+(10+10)')).toEqual('30');
     expect(calculationParser('(((((50*10)/(10*1)')).toEqual('50');
     expect(calculationParser('(2)*(3-2)')).toEqual('2');
-    expect(calculationParser('(2+(3*(4*2*(2)+6)/3)*5)')).toEqual('112');
   });
   it('deals with negative numbers & brackets', () => {
     expect(calculationParser('(2-3)')).toEqual('-1');
@@ -58,6 +57,9 @@ describe('calculationParser', () => {
   it('deals with border cases', () => {
     expect(calculationParser('2+')).toEqual('2');
     expect(calculationParser('2+(')).toEqual('2');
+  });
+  it('follows order of operations ('*' is calculated before '+' etc)', () => {
+    expect(calculationParser('2+22*5')).toEqual('112');
   });
 });
 
