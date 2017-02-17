@@ -5,7 +5,8 @@ import { calculationParser } from '../utils/calculation';
 import '../styles/Main.css';
 
 /*
-//1 - 15 digits limit
+1 - 15 total digits limit
+1.1 - 10 digits max after decimal dot
 2 - nice display with thousand separators
 3 - font size changes when the number of digits is high enough
 4 - move input to a new line after 20 characters (20 chars per line)
@@ -24,18 +25,20 @@ export default class Main extends Component {
   }
 
   handleClick = (value) => {
-    if (this.state.input.length === 15) { // set max character limit to 15
-      this.setState({
-        message: 'Maximum number of characters reached: 15'
-      });
-      window.setTimeout(() => { // hide message after a second
-        this.setState({message: ''})
-      }, 800);
-    } else {
+    /////////////// !!!!!!!!!!!!!!!! == max character limit does not work
+    // if (this.state.input.length === 15) { // set max character limit to 15
+    //   this.setState({
+    //     message: 'Maximum number of characters reached: 15'
+    //   });
+    //   window.setTimeout(() => { // hide message after a second
+    //     this.setState({message: ''})
+    //   }, 800);
+    ///////////////
+    // } else {
       this.setState({
         input: parseInput(this.state.input, value)
       });
-    }
+    // }
   }
 
   handleDelete = () => {
