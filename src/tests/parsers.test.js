@@ -1,6 +1,17 @@
-import { parseInput, deleteInput, prepareInput } from '../utils/parsers';
+import { maxNumberLength, parseInput, deleteInput } from '../utils/parsers';
 
-describe('raw input parser', () => {
+describe('maxNumberLength', () => {
+  it('does not allow more than 15 digits per number', () => {
+    expect(maxNumberLength('123456789012345')).toBeTruthy();
+    expect(maxNumberLength('123456789.12345')).toBeTruthy();
+    expect(maxNumberLength('5+123456789012345')).toBeTruthy();
+    expect(maxNumberLength('5')).toBeFalsy();
+    expect(maxNumberLength('12345678901234')).toBeFalsy();
+    expect(maxNumberLength('5+12345678901234')).toBeFalsy();
+  });
+});
+
+describe('parseInput', () => {
   it('removes redundant leading zeroes', () => {
     expect(parseInput('0', '0')).toEqual('0');
     expect(parseInput('0', '6')).toEqual('6');

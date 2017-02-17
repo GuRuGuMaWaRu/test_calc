@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import CalcButton from './CalcButton';
-import { parseInput, deleteInput, beatifyInput } from '../utils/parsers';
+import { maxNumberLength, parseInput, deleteInput, beatifyInput } from '../utils/parsers';
 import { calculationParser } from '../utils/calculation';
 import '../styles/Main.css';
 
@@ -25,20 +25,18 @@ export default class Main extends Component {
   }
 
   handleClick = (value) => {
-    /////////////// !!!!!!!!!!!!!!!! == max character limit does not work
-    // if (this.state.input.length === 15) { // set max character limit to 15
-    //   this.setState({
-    //     message: 'Maximum number of characters reached: 15'
-    //   });
-    //   window.setTimeout(() => { // hide message after a second
-    //     this.setState({message: ''})
-    //   }, 800);
-    ///////////////
-    // } else {
+    if (/[\d\.]/.test(value) && maxNumberLength(this.state.input)) {
+      this.setState({
+        message: 'Maximum number of characters reached: 15'
+      });
+      window.setTimeout(() => { // hide message after a second
+        this.setState({message: ''})
+      }, 800);
+    } else {
       this.setState({
         input: parseInput(this.state.input, value)
       });
-    // }
+    }
   }
 
   handleDelete = () => {

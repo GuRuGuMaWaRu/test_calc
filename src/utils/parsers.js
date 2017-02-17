@@ -1,10 +1,14 @@
+export const maxNumberLength = (previousInput) => {
+  const lastNumberLength = /(?:[\/\+\-\*\(])?([\d\.]+)$/.exec(previousInput);
+  if (lastNumberLength && lastNumberLength[1].length === 15) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 export const parseInput = (previousInput, currentInput) => {
   const totalInput = previousInput + currentInput;
-  const lastNumberLength = /(?:[\/\+\-\*\(])?([\d\.]+)$/.exec(previousInput);
-  // console.log(lastNumberLength && lastNumberLength[1]);
-  if (lastNumberLength && lastNumberLength[1].length === 15) {
-    console.log('15 digits max!');
-  }
 
   const handlers = [
     {
