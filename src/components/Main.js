@@ -5,8 +5,10 @@ import { calculationParser } from '../utils/calculation';
 import '../styles/Main.css';
 
 /*
-1 - 15 total digits limit
+// 1 - 15 total digits limit
 1.1 - 10 digits max after decimal dot
+1.2 - 100 chars max
+1,3 - 20 operations max
 2 - nice display with thousand separators
 3 - font size changes when the number of digits is high enough
 4 - move input to a new line after 20 characters (20 chars per line)

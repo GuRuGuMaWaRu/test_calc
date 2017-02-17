@@ -29,7 +29,7 @@ export const calculateOuter = (input) => {
   } else {
     return input.indexOf('*') === -1
       ? calculateOuter(input.replace(/^(\-?[\d\.]+)([\/\+\-])(\-?[\d\.]+)/, calculateSimple)) // all operations but multiplication
-      : calculateOuter(input.replace(/(\-?[\d\.]+)([\*])(\-?[\d\.]+)/, calculateSimple));
+      : calculateOuter(input.replace(/(\-?[\d\.]+)(\*)(\-?[\d\.]+)/, calculateSimple));
   }
 }
 

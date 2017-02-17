@@ -102,5 +102,5 @@ export const beatifyInput = (input) => {
     number = Number(number);
     return number.toLocaleString('en-US', {maximumFractionDigits: 10});
   }
-  return input.replace(/([\d\.]+)/, replaceNumber);
+  return input.replace(/([\d\.]+)/g, replaceNumber);
 }
