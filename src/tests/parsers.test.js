@@ -1,9 +1,18 @@
 import {
+  maxOperatorNumber,
   maxNumberLength,
   maxDecimalDotLength,
   maxCharacterNumber,
   parseInput,
   deleteInput } from '../utils/parsers';
+
+describe('maxOperatorNumber', () => {
+  it('does not allow more than 20 operators', () => {
+    expect(maxOperatorNumber('1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1')).toBeFalsy();
+    expect(maxOperatorNumber('1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1')).toBeTruthy();
+    expect(maxOperatorNumber('1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+')).toBeTruthy();
+  });
+});
 
 describe('maxNumberLength', () => {
   it('does not allow more than 15 digits per number', () => {

@@ -1,3 +1,8 @@
+export const maxOperatorNumber = (previousInput) => {
+  const operators = previousInput.match(/[\/\+\-\*]/g);
+  return operators && operators.length === 20;
+}
+
 export const maxNumberLength = (previousInput) => {
   const lastNumberLength = /(?:[\/\+\-\*\(])?([\d\.]+)$/.exec(previousInput);
   if (lastNumberLength && lastNumberLength[1].length === 15) {
