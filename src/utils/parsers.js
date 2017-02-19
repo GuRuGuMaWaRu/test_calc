@@ -7,6 +7,15 @@ export const maxNumberLength = (previousInput) => {
   }
 }
 
+export const maxDecimalDotLength = (previousInput) => {
+  const afterDecimalDot = /\.(\d+)$/.exec(previousInput);
+  if (afterDecimalDot && afterDecimalDot[1].length === 10) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 export const parseInput = (previousInput, currentInput) => {
   const totalInput = previousInput + currentInput;
 

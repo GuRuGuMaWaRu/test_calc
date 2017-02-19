@@ -1,4 +1,8 @@
-import { maxNumberLength, parseInput, deleteInput } from '../utils/parsers';
+import {
+  maxNumberLength,
+  maxDecimalDotLength,
+  parseInput,
+  deleteInput } from '../utils/parsers';
 
 describe('maxNumberLength', () => {
   it('does not allow more than 15 digits per number', () => {
@@ -8,6 +12,15 @@ describe('maxNumberLength', () => {
     expect(maxNumberLength('5')).toBeFalsy();
     expect(maxNumberLength('12345678901234')).toBeFalsy();
     expect(maxNumberLength('5+12345678901234')).toBeFalsy();
+  });
+});
+
+describe('maxDecimalDotLength', () => {
+  it('does not allow more than 10 digits after decimal dot', () => {
+    expect(maxDecimalDotLength('.1234567890')).toBeTruthy();
+    expect(maxDecimalDotLength('12.1234567890')).toBeTruthy();
+    expect(maxDecimalDotLength('77+12.1234567890')).toBeTruthy();
+    expect(maxDecimalDotLength('12.12345')).toBeFalsy();
   });
 });
 

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import CalcButton from './CalcButton';
-import { maxNumberLength, parseInput, deleteInput, beatifyInput } from '../utils/parsers';
+import { maxNumberLength, maxDecimalDotLength, parseInput, deleteInput, beatifyInput } from '../utils/parsers';
 import { calculationParser } from '../utils/calculation';
 import '../styles/Main.css';
 
 /*
+0 - does not display decimal dot!!!
 // 1 - 15 total digits limit
 1.1 - 10 digits max after decimal dot
 1.2 - 100 chars max
@@ -30,6 +31,13 @@ export default class Main extends Component {
     if (/[\d\.]/.test(value) && maxNumberLength(this.state.input)) {
       this.setState({
         message: 'Maximum number of characters reached: 15'
+      });
+      window.setTimeout(() => { // hide message after a second
+        this.setState({message: ''})
+      }, 800);
+    } else if (/\d/.test(value) && maxDecimalDotLength(this.state.input)) {
+      this.setState({
+        message: 'Maximum number of digits after decimal dot: 10'
       });
       window.setTimeout(() => { // hide message after a second
         this.setState({message: ''})
