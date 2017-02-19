@@ -1,6 +1,7 @@
 import {
   maxNumberLength,
   maxDecimalDotLength,
+  maxCharacterNumber,
   parseInput,
   deleteInput } from '../utils/parsers';
 
@@ -21,6 +22,13 @@ describe('maxDecimalDotLength', () => {
     expect(maxDecimalDotLength('12.1234567890')).toBeTruthy();
     expect(maxDecimalDotLength('77+12.1234567890')).toBeTruthy();
     expect(maxDecimalDotLength('12.12345')).toBeFalsy();
+  });
+});
+
+describe('maxCharacterNumber', () => {
+  it('does not allow more than 100 characters total', () => {
+    expect(maxCharacterNumber('.1234567890')).toBeFalsy();
+    expect(maxCharacterNumber('1234+1234+1234+1234+1234+1234+1234+1234+1234+1234+1234+1234+1234+1234+1234+1234+1234+1234+1234+1234+')).toBeTruthy();
   });
 });
 

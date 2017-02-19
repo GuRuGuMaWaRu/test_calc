@@ -16,6 +16,10 @@ export const maxDecimalDotLength = (previousInput) => {
   }
 }
 
+export const maxCharacterNumber = (previousInput) => {
+  return previousInput.length === 100;
+}
+
 export const parseInput = (previousInput, currentInput) => {
   const totalInput = previousInput + currentInput;
 
