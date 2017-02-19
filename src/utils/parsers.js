@@ -108,8 +108,13 @@ export const deleteInput = (input) => {
 
 export const beatifyInput = (input) => {
   function replaceNumber(_match, number) {
-    number = Number(number);
-    return number.toLocaleString('en-US', {maximumFractionDigits: 10});
+    if (number.endsWith('.')) { // solve issue when toLocaleString deletes decimal dot if it's the last symbol
+      number = Number(number);
+      return (number.toLocaleString('en-US', {maximumFractionDigits: 10})) + '.';
+    } else {
+      number = Number(number);
+      return number.toLocaleString('en-US', {maximumFractionDigits: 10});
+    }
   }
   return input.replace(/([\d\.]+)/g, replaceNumber);
 }
