@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import CalcButton from './CalcButton';
 import {
-  maxNumberLength,
-  maxDecimalDotLength,
-  maxCharacterNumber,
-  maxOperatorNumber,
+  inputCheck,
   parseInput,
   deleteInput,
   beatifyInput } from '../utils/parsers';
@@ -16,11 +13,12 @@ import '../styles/Main.css';
 // 1 - 15 total digits limit
 // 1.1 - 10 digits max after decimal dot
 // 1.2 - 100 chars max
-1,3 - 20 operations max
-2 - nice display with thousand separators
+// 1.3 - 20 operations max
+// 2 - nice display with thousand separators
 3 - font size changes when the number of digits is high enough
 4 - move input to a new line after 20 characters (20 chars per line)
 5 - use E+19 notation for numbers longer than 15 digits
+6 - allow input from keyboard
 
 */
 export default class Main extends Component {
@@ -35,30 +33,11 @@ export default class Main extends Component {
   }
 
   handleClick = (value) => {
-    if (maxCharacterNumber(this.state.input)) {
+    const limit = inputCheck(value, this.state.input);
+
+    if (limit.limit) {
       this.setState({
-        message: 'Maximum number of characters reached: 100'
-      });
-      window.setTimeout(() => { // hide message after a second
-        this.setState({message: ''})
-      }, 800);
-    } else if (/[\d\.]/.test(value) && maxNumberLength(this.state.input)) {
-      this.setState({
-        message: 'Maximum number of characters in a number: 15'
-      });
-      window.setTimeout(() => { // hide message after a second
-        this.setState({message: ''})
-      }, 800);
-    } else if (/[\/\+\-\*]/.test(value) && maxOperatorNumber(this.state.input)) {
-      this.setState({
-        message: 'Maximum number of operators: 20'
-      });
-      window.setTimeout(() => { // hide message after a second
-        this.setState({message: ''})
-      }, 800);
-    } else if (/\d/.test(value) && maxDecimalDotLength(this.state.input)) {
-      this.setState({
-        message: 'Maximum number of digits after decimal dot: 10'
+        message: limit.message
       });
       window.setTimeout(() => { // hide message after a second
         this.setState({message: ''})
