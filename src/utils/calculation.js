@@ -1,5 +1,13 @@
+export const tooLarge = (input) => {
+  let inputInString = input.toString(10);
+  if (inputInString.indexOf('.') !== -1)
+    inputInString = inputInString.slice(0, inputInString.indexOf('.'));
+  return inputInString.length > 15;
+}
+
 export const calculateSimple = (_match, firstNumber, operator, secondNumber) => {
   const floatingPoint = firstNumber.indexOf('.') !== -1 || secondNumber.indexOf('.') !== -1;
+  // let result = 0;
 
   if (floatingPoint) { // convert string numbers into true numbers
     firstNumber = Number.parseFloat(firstNumber, 10);
@@ -8,25 +16,39 @@ export const calculateSimple = (_match, firstNumber, operator, secondNumber) => 
     firstNumber = Number.parseInt(firstNumber, 10);
     secondNumber = Number.parseInt(secondNumber, 10);
   }
+
   switch(operator) { // perform a calculation depending on passed operator
     case '+':
       return firstNumber + secondNumber;
+      // result = firstNumber + secondNumber;
+      // break;
     case '-':
       return firstNumber - secondNumber;
+      // result = firstNumber - secondNumber;
+      // break;
     case '*':
       return firstNumber * secondNumber;
+      // result = firstNumber * secondNumber;
+      // break;
     case '/':
       return firstNumber / secondNumber;
+      // result = firstNumber / secondNumber;
+      // break;
     default:
+      // result = '';
       return '';
   }
+
+  // return tooLarge(result) ? result.toExponential(8) : result;
 }
 
 export const calculateOuter = (input) => {
-  if (/^(\-)?\d+(\.)?(\d+)?$/.test(input)) { // return if only one number is left
+  if (/^(\-)?\d+(\.)?(\d+)?(e\+\d+)?$/.test(input)) { // return if only one number is left
     input = Number(input);
-    return input.toLocaleString('en-US', {maximumFractionDigits: 10});
+    return tooLarge(input) ? input.toExponential(8) : input.toLocaleString('en-US', {maximumFractionDigits: 10});
+    // return input.toLocaleString('en-US', {maximumFractionDigits: 10});
   } else {
+    console.log(input);
     return input.indexOf('*') === -1
       ? calculateOuter(input.replace(/^(\-?[\d\.]+)([\/\+\-])(\-?[\d\.]+)/, calculateSimple)) // all operations but multiplication
       : calculateOuter(input.replace(/(\-?[\d\.]+)(\*)(\-?[\d\.]+)/, calculateSimple));

@@ -1,7 +1,17 @@
 import {
+  tooLarge,
   calculationParser,
   calculateOuter,
   calculateSimple } from '../utils/calculation';
+
+describe('tooLarge', () => {
+  it('return true if the number is longer than 15 digits before decimal dot', () => {
+    expect(tooLarge('9999999999999999')).toBeTruthy();
+  });
+  it('return false if the number is shorter or equal to 15 digits before decimal dot', () => {
+    expect(tooLarge('999999999999999')).toBeFalsy();
+  });
+});
 
 describe('calculationParser', () => {
   it('returns input if there is only one number without brackets and operators', () => {
@@ -88,4 +98,7 @@ describe('calculateSimple', () => {
   it('multiplies the first number by the second', () => {
     expect(calculateSimple('', '10', '*', '5')).toEqual(50);
   });
+  // it('return number in exponential notation if its longer than 15 digits before decimal point', () => {
+  //   expect(calculateSimple('', '999999999999999', '+', '1')).toEqual('1.00000000e+15');
+  // });
 });
