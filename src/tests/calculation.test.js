@@ -6,10 +6,11 @@ import {
 
 describe('tooLarge', () => {
   it('return true if the number is longer than 15 digits before decimal dot', () => {
-    expect(tooLarge('9999999999999999')).toBeTruthy();
+    expect(tooLarge(9999999999999999)).toBeTruthy();
+    expect(tooLarge(9.99999899999999e+21)).toBeTruthy();
   });
   it('return false if the number is shorter or equal to 15 digits before decimal dot', () => {
-    expect(tooLarge('999999999999999')).toBeFalsy();
+    expect(tooLarge(999999999999999)).toBeFalsy();
   });
 });
 

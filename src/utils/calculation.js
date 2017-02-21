@@ -1,7 +1,12 @@
 export const tooLarge = (input) => {
+  // console.log(input);
   let inputInString = input.toString(10);
+
+  if (inputInString.indexOf('e') !== -1)
+    return true;
   if (inputInString.indexOf('.') !== -1)
     inputInString = inputInString.slice(0, inputInString.indexOf('.'));
+
   return inputInString.length > 15;
 }
 
@@ -17,6 +22,19 @@ export const calculateSimple = (_match, firstNumber, operator, secondNumber) => 
     secondNumber = Number.parseInt(secondNumber, 10);
   }
 
+  if (tooLarge(firstNumber)) {
+    /*
+
+
+????????????????????????????????
+????????????????????????????????
+????????????????????????????????
+????????????????????????????????
+
+
+    */
+  }
+
   switch(operator) { // perform a calculation depending on passed operator
     case '+':
       return firstNumber + secondNumber;
@@ -27,6 +45,7 @@ export const calculateSimple = (_match, firstNumber, operator, secondNumber) => 
       // result = firstNumber - secondNumber;
       // break;
     case '*':
+    console.log(firstNumber * secondNumber);
       return firstNumber * secondNumber;
       // result = firstNumber * secondNumber;
       // break;
@@ -44,11 +63,13 @@ export const calculateSimple = (_match, firstNumber, operator, secondNumber) => 
 
 export const calculateOuter = (input) => {
   if (/^(\-)?\d+(\.)?(\d+)?(e\+\d+)?$/.test(input)) { // return if only one number is left
+    // console.log(input);
     input = Number(input);
-    return tooLarge(input) ? input.toExponential(8) : input.toLocaleString('en-US', {maximumFractionDigits: 10});
+    // console.log(input);
+    return tooLarge(input) ? input.toExponential() : input.toLocaleString('en-US', {maximumFractionDigits: 10});
     // return input.toLocaleString('en-US', {maximumFractionDigits: 10});
   } else {
-    console.log(input);
+    // console.log(input);
     return input.indexOf('*') === -1
       ? calculateOuter(input.replace(/^(\-?[\d\.]+)([\/\+\-])(\-?[\d\.]+)/, calculateSimple)) // all operations but multiplication
       : calculateOuter(input.replace(/(\-?[\d\.]+)(\*)(\-?[\d\.]+)/, calculateSimple));
