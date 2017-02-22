@@ -1,5 +1,4 @@
 export const tooLarge = (input) => {
-  // console.log(input);
   let inputInString = input.toString(10);
 
   if (inputInString.indexOf('e') !== -1)
@@ -12,7 +11,7 @@ export const tooLarge = (input) => {
 
 export const calculateSimple = (_match, firstNumber, operator, secondNumber) => {
   const floatingPoint = firstNumber.indexOf('.') !== -1 || secondNumber.indexOf('.') !== -1;
-  // let result = 0;
+  let result = 0;
 
   if (floatingPoint) { // convert string numbers into true numbers
     firstNumber = Number.parseFloat(firstNumber, 10);
@@ -22,57 +21,52 @@ export const calculateSimple = (_match, firstNumber, operator, secondNumber) => 
     secondNumber = Number.parseInt(secondNumber, 10);
   }
 
-  if (tooLarge(firstNumber)) {
-    /*
-
-
-????????????????????????????????
-????????????????????????????????
-????????????????????????????????
-????????????????????????????????
-
-
-    */
-  }
-
   switch(operator) { // perform a calculation depending on passed operator
     case '+':
-      return firstNumber + secondNumber;
-      // result = firstNumber + secondNumber;
-      // break;
+      result = firstNumber + secondNumber;
+      if (tooLarge(result)) {
+        result = result.toExponential(10);
+      }
+      break;
     case '-':
-      return firstNumber - secondNumber;
-      // result = firstNumber - secondNumber;
-      // break;
+      result = firstNumber - secondNumber;
+      if (tooLarge(result)) {
+        result = result.toExponential(10);
+      }
+      break;
     case '*':
-    console.log(firstNumber * secondNumber);
-      return firstNumber * secondNumber;
-      // result = firstNumber * secondNumber;
-      // break;
+      result = firstNumber * secondNumber;
+      if (tooLarge(result)) {
+        result = result.toExponential(10);
+      }
+      break;
     case '/':
-      return firstNumber / secondNumber;
-      // result = firstNumber / secondNumber;
-      // break;
+      result = firstNumber / secondNumber;
+      if (tooLarge(result)) {
+        result = result.toExponential(10);
+      }
+      break;
     default:
-      // result = '';
-      return '';
+      result = '';
   }
 
-  // return tooLarge(result) ? result.toExponential(8) : result;
+  return result;
 }
 
 export const calculateOuter = (input) => {
   if (/^(\-)?\d+(\.)?(\d+)?(e\+\d+)?$/.test(input)) { // return if only one number is left
-    // console.log(input);
-    input = Number(input);
-    // console.log(input);
-    return tooLarge(input) ? input.toExponential() : input.toLocaleString('en-US', {maximumFractionDigits: 10});
-    // return input.toLocaleString('en-US', {maximumFractionDigits: 10});
+    // console.log('calculateOuter: last number', input);
+    if (input.indexOf('e') === -1) {
+      input = Number(input);
+      return input.toLocaleString('en-US', {maximumFractionDigits: 10});
+    } else {
+      return input;
+    }
   } else {
-    // console.log(input);
+    console.log('calculateOuter:', input);
     return input.indexOf('*') === -1
-      ? calculateOuter(input.replace(/^(\-?[\d\.]+)([\/\+\-])(\-?[\d\.]+)/, calculateSimple)) // all operations but multiplication
-      : calculateOuter(input.replace(/(\-?[\d\.]+)(\*)(\-?[\d\.]+)/, calculateSimple));
+      ? calculateOuter(input.replace(/^(\-?[\d\.]+(?:e\+\d+)?)([\/\+\-])(\-?[\d\.]+(?:e\+\d+)?)/, calculateSimple)) // all operations but multiplication
+      : calculateOuter(input.replace(/(\-?[\d\.]+(?:e\+\d+)?)(\*)(\-?[\d\.]+(?:e\+\d+)?)/, calculateSimple));
   }
 }
 

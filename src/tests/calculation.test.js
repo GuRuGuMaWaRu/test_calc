@@ -99,7 +99,4 @@ describe('calculateSimple', () => {
   it('multiplies the first number by the second', () => {
     expect(calculateSimple('', '10', '*', '5')).toEqual(50);
   });
-  // it('return number in exponential notation if its longer than 15 digits before decimal point', () => {
-  //   expect(calculateSimple('', '999999999999999', '+', '1')).toEqual('1.00000000e+15');
-  // });
 });
