@@ -16,11 +16,14 @@ describe('tooLarge', () => {
 });
 
 describe('checkForExponential', () => {
-  it('returns input without change if the number is 16 digits long or shorter', () => {
+  it('returns input without changes if the number is short', () => {
     expect(checkForExponential(999999999999999)).toEqual(999999999999999);
   });
-  it('turns input into exponential number is the number is longer than 15 digits', () => {
-    expect(checkForExponential(1000000000000000)).toEqual('1.0000000000e+15');
+  it('makes exponential number if the number is long', () => {
+    expect(checkForExponential(1000000000000000)).toEqual('1.00000000e+15');
+  });
+  it('limits exponential number to 8 digits after decimal dot', () => {
+    expect(checkForExponential(1000000000000000)).toEqual('1.00000000e+15');
   });
 });
 

@@ -11,7 +11,7 @@ export const tooLarge = (input) => { // check if the number is too large
 
 export const checkForExponential = (input) => { // turn a large number into exponential
   if (tooLarge(input)) {
-    return input.toExponential(10);
+    return input.toExponential(8);
   } else {
     return input;
   }
