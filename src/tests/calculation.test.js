@@ -1,16 +1,26 @@
 import {
   tooLarge,
+  checkForExponential,
   calculationParser,
   calculateOuter,
   calculateSimple } from '../utils/calculation';
 
 describe('tooLarge', () => {
-  it('return true if the number is longer than 15 digits before decimal dot', () => {
+  it('returns true if the number is longer than 15 digits before decimal dot', () => {
     expect(tooLarge(9999999999999999)).toBeTruthy();
     expect(tooLarge(9.99999899999999e+21)).toBeTruthy();
   });
-  it('return false if the number is shorter or equal to 15 digits before decimal dot', () => {
+  it('returns false if the number is shorter or equal to 15 digits before decimal dot', () => {
     expect(tooLarge(999999999999999)).toBeFalsy();
+  });
+});
+
+describe('checkForExponential', () => {
+  it('returns input without change if the number is 16 digits long or shorter', () => {
+    expect(checkForExponential(999999999999999)).toEqual(999999999999999);
+  });
+  it('turns input into exponential number is the number is longer than 15 digits', () => {
+    expect(checkForExponential(1000000000000000)).toEqual('1.0000000000e+15');
   });
 });
 

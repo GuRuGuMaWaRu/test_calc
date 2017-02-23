@@ -12,7 +12,7 @@ import '../styles/Main.css';
 // 1.3 - 20 operations max
 // 2 - nice display with thousand separators
 3 - use E+19 notation for numbers longer than 15 digits (16 digit numbers)
-4 - font size changes when the number of digits is high enough
+4 - font size changes when the number of digits is high enough (12 digits)
 5 - move input to a new line after 20 characters (20 chars per line)
 6 - allow input from keyboard
 7 - CLEAR ALL button
