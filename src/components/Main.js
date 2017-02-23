@@ -12,10 +12,12 @@ import '../styles/Main.css';
 // 1.3 - 20 operations max
 // 2 - nice display with thousand separators
 // 3 - use E+19 notation for numbers longer than 15 digits (16 digit numbers)
-4 - font size changes when the number of digits is high enough (12 digits)
-5 - move input to a new line after 20 characters (20 chars per line)
-6 - allow input from keyboard
-7 - CLEAR ALL button
+// 4 - CLEAR ALL button
+5 - font size changes when the number of digits is high enough (12 digits = 115px)
+5.1 - different color for operators
+5.2 - displayed number must be right-aligned
+6 - move input to a new line after 20 characters (20 chars per line)
+7 - allow input from keyboard
 
 */
 export default class Main extends Component {
@@ -26,6 +28,10 @@ export default class Main extends Component {
       buttons: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '*', '/', '.', '()', '+/-'],
       message: ''
     };
+  }
+
+  componentDidUpdate() {
+    console.log(document.querySelector('.display').getBoundingClientRect().width);
   }
 
   handleClick = (value) => {
@@ -64,16 +70,16 @@ export default class Main extends Component {
       <div>
         <div>
           <h4>Display</h4>
-          <div className="Display"> { beautifyInput(input) } </div>
-          <div className="Result"> { calculationParser(input) } </div>
-          <div className="Message"> { message } </div>
+          <span className="display"> { beautifyInput(input) } </span>
+          <div className="tesult"> { calculationParser(input) } </div>
+          <div className="message"> { message } </div>
         </div>
         <div>
           <h4>Buttons</h4>
           <button onClick={this.handleDelete}>Delete</button>
           <button onClick={this.handleClearAll}>Clear all</button>
           <div>
-            { buttons.map(button => <CalcButton key={button} value={button} onClick={this.handleClick} />)}
+            { buttons.map(button => <CalcButton key={button} value={button} onClick={this.handleClick} />) }
           </div>
         </div>
       </div>
