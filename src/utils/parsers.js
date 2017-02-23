@@ -5,20 +5,12 @@ export const maxOperatorNumber = (previousInput) => {
 
 export const maxNumberLength = (previousInput) => {
   const lastNumberLength = /(?:[\/\+\-\*\(])?([\d\.]+)$/.exec(previousInput);
-  if (lastNumberLength && lastNumberLength[1].length === 15) {
-    return true;
-  } else {
-    return false;
-  }
+  return lastNumberLength && lastNumberLength[1].length === 15;
 }
 
 export const maxDecimalDotLength = (previousInput) => {
   const afterDecimalDot = /\.(\d+)$/.exec(previousInput);
-  if (afterDecimalDot && afterDecimalDot[1].length === 10) {
-    return true;
-  } else {
-    return false;
-  }
+  return afterDecimalDot && afterDecimalDot[1].length === 10;
 }
 
 export const maxCharacterNumber = (previousInput) => {
@@ -40,8 +32,6 @@ export const inputCheck = (value, previousInput) => {
 }
 
 export const parseInput = (previousInput, currentInput) => {
-  const totalInput = previousInput + currentInput;
-
   const handlers = [
     {
       value: /\+\/\-/,
@@ -122,14 +112,14 @@ export const parseInput = (previousInput, currentInput) => {
 
   return chosenHandlers.reduce((a, b) => { //=== run accumulated input through all parser functions
     return a.replace(b.test, b.convert);
-  }, totalInput);
+  }, previousInput + currentInput);
 }
 
 export const deleteInput = (input) => {
   return input.slice(0, -1);
 }
 
-export const beatifyInput = (input) => {
+export const beautifyInput = (input) => {
   function replaceNumber(_match, number) {
     if (number.endsWith('.')) { // solve issue when toLocaleString deletes decimal dot if it's the last symbol
       number = Number(number);
