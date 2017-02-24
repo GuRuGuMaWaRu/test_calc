@@ -31,7 +31,15 @@ export default class Main extends Component {
   }
 
   componentDidUpdate() {
+    /* change font size depending on input length */
     console.log(document.querySelector('.display').getBoundingClientRect().width);
+    if (this.state.input.length > 11) {
+      document.querySelector('.display').classList.add('display-large-font');
+    } else if (this.state.input.length > 15) {
+      document.querySelector('.display').classList.add('display-larger-font');
+    } else {
+      document.querySelector('.display').classList.remove('display-large-font');
+    }
   }
 
   handleClick = (value) => {
@@ -51,7 +59,7 @@ export default class Main extends Component {
     }
   }
 
-  handleDelete = () => {
+  handleDelete = (event) => {
     this.setState(prevState => ({
       input: deleteInput(prevState.input)
     }));

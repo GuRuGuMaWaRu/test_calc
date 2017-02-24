@@ -88,6 +88,9 @@ describe('calculationParser', () => {
 });
 
 describe('calculateOuter', () => {
+  it('returns single number as is', () => {
+    expect(calculateOuter('5')).toEqual('5');
+  });
   it('returns input unchanged if there are no operators', () => {
     expect(calculateOuter('54667546')).toEqual('54,667,546');
   });
