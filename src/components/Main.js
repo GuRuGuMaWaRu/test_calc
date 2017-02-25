@@ -18,6 +18,9 @@ import '../styles/Main.css';
 5.2 - displayed number must be right-aligned
 6 - move input to a new line after 20 characters (20 chars per line)
 7 - allow input from keyboard
+8 - allow touch control
+9 - add history
+10 - result from history is added to current input when clicked
 
 */
 export default class Main extends Component {
@@ -33,13 +36,17 @@ export default class Main extends Component {
   componentDidUpdate() {
     /* change font size depending on input length */
     console.log(document.querySelector('.display').getBoundingClientRect().width);
-    if (this.state.input.length > 11) {
-      document.querySelector('.display').classList.add('display-large-font');
+    const length = this.state.input.length;
+
+    if (length > 11 && length <= 15) {
+      document.querySelector('.display').style.fontSize = '16px';
     } else if (this.state.input.length > 15) {
-      document.querySelector('.display').classList.add('display-larger-font');
+      document.querySelector('.display').style.fontSize = '14px';
     } else {
-      document.querySelector('.display').classList.remove('display-large-font');
+      document.querySelector('.display').style.fontSize = '20px';
     }
+    // document.querySelector('.display').classList.add('display-larger-font');
+
   }
 
   handleClick = (value) => {

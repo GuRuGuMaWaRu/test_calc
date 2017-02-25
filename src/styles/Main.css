@@ -5,28 +5,5 @@ button {
 .display {
   height: 100px;
   font-size: 20px;
-  transition: font-size 0.3s;
-}
-
-/*.display-large-font {
-  -webkit-animation-name: increaseFont;
-  -webkit-animation-duration: 2s;
-}
-
-@-webkit-keyframes increaseFont {
-  from {font-size: 16px;}
-  to {font-size: 20px;}
-}
-
-@keyframes increaseFont {
-  from {font-size: 16px;}
-  to {font-size: 20px;}
-}*/
-
-.display-large-font {
-  font-size: 16px;
-}
-
-.display-larger-font {
-  font-size: 14px;
+  transition: font-size 0.4s;
 }
