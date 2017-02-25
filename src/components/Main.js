@@ -13,7 +13,7 @@ import '../styles/Main.css';
 // 2 - nice display with thousand separators
 // 3 - use E+19 notation for numbers longer than 15 digits (16 digit numbers)
 // 4 - CLEAR ALL button
-5 - font size changes when the number of digits is high enough (12 digits = 115px)
+// 5 - font size changes when the number of digits is high enough (12 digits = 115px)
 5.1 - different color for operators
 5.2 - displayed number must be right-aligned
 6 - move input to a new line after 20 characters (20 chars per line)
@@ -33,9 +33,8 @@ export default class Main extends Component {
     };
   }
 
+  // change font size depending on input length
   componentDidUpdate() {
-    /* change font size depending on input length */
-    console.log(document.querySelector('.display').getBoundingClientRect().width);
     const length = this.state.input.length;
 
     if (length > 11 && length <= 15) {
@@ -45,19 +44,19 @@ export default class Main extends Component {
     } else {
       document.querySelector('.display').style.fontSize = '20px';
     }
-    // document.querySelector('.display').classList.add('display-larger-font');
 
   }
 
   handleClick = (value) => {
     const limit = inputCheck(value, this.state.input);
 
+    // check various limits and either show a message or parse input
     if (limit.limit) {
       this.setState({
         message: limit.message
       });
-      window.setTimeout(() => { // hide message after a second
-        this.setState({message: ''})
+      window.setTimeout(() => {
+        this.setState({ message: '' })
       }, 800);
     } else {
       this.setState({
@@ -73,9 +72,7 @@ export default class Main extends Component {
   }
 
   handleClearAll = () => {
-    this.setState({
-      input: ''
-    });
+    this.setState({ input: '' });
   }
 
   render() {
