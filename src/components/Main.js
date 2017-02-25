@@ -22,6 +22,9 @@ import '../styles/Main.css';
 9 - add history
 10 - result from history is added to current input when clicked
 
+ERRORS:
+'6/5/3/76/656/4' give stack overflow
+
 */
 export default class Main extends Component {
   constructor(props) {
@@ -49,7 +52,6 @@ export default class Main extends Component {
 
   handleClick = (value) => {
     const limit = inputCheck(value, this.state.input);
-
     // check various limits and either show a message or parse input
     if (limit.limit) {
       this.setState({
@@ -65,6 +67,26 @@ export default class Main extends Component {
     }
   }
 
+  // keyboard input
+  handleKeyboardInput = (event) => {
+    const simpleValues = {
+      48: '0', 49: '1', 50: '2', 51: '3', 52: '4',
+      53: '5', 54: '6', 55: '7', 56: '8', 57: '9',
+      189: '-', 190: '.', 191: '/'
+    };
+    const complexValues = {
+      56: '*', 187: '+'
+    };
+    const pressedKey = event.keyCode;
+
+    console.log(pressedKey);
+    if (event.shiftKey && complexValues.hasOwnProperty(event.keyCode)) {
+      this.handleClick(complexValues[event.keyCode]);
+    } else if (simpleValues.hasOwnProperty(event.keyCode)) {
+      this.handleClick(simpleValues[event.keyCode]);
+    }
+  }
+
   handleDelete = (event) => {
     this.setState(prevState => ({
       input: deleteInput(prevState.input)
@@ -77,6 +99,8 @@ export default class Main extends Component {
 
   render() {
     const { input, buttons, message } = this.state;
+
+    addEventListener('keyup', this.handleKeyboardInput);
 
     return (
       <div>
