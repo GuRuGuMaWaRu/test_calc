@@ -14,13 +14,15 @@ import '../styles/Main.css';
 // 3 - use E+19 notation for numbers longer than 15 digits (16 digit numbers)
 // 4 - CLEAR ALL button
 // 5 - font size changes when the number of digits is high enough (12 digits = 115px)
-5.1 - different color for operators
-5.2 - displayed number must be right-aligned
-6 - move input to a new line after 20 characters (20 chars per line)
-7 - allow input from keyboard
-8 - allow touch control
-9 - add history
-10 - result from history is added to current input when clicked
+// 6 - allow input from keyboard
+
+- different color for operators
+- displayed number must be right-aligned
+- move input to a new line after 20 characters (20 chars per line)
+- allow touch control
+- add history
+- result from history is added to current input when clicked
+- implement '=' input
 
 ERRORS:
 '6/5/3/76/656/4' gives stack overflow
@@ -52,6 +54,13 @@ export default class Main extends Component {
 
   handleClick = (value) => {
     const limit = inputCheck(value, this.state.input);
+
+    // handle '=' sign
+    if (value === '=') {
+      this.setState(prevState => ({
+        input: calculationParser(prevState.input)
+      }));
+    }
     // check various limits and either show a message or parse input
     if (limit.limit) {
       this.setState({
