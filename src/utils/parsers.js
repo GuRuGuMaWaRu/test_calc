@@ -1,3 +1,22 @@
+export const handleKeyboardInput = (event) => {
+  const simpleValues = {
+    48: '0', 49: '1', 50: '2', 51: '3', 52: '4',
+    53: '5', 54: '6', 55: '7', 56: '8', 57: '9',
+    189: '-', 190: '.', 191: '/'
+  };
+  const complexValues = {
+    56: '*', 187: '+', 48: '()', 57: '()'
+  };
+  const pressedKey = event.keyCode;
+
+  console.log(pressedKey);
+  if (event.shiftKey && complexValues.hasOwnProperty(event.keyCode)) {
+    return complexValues[event.keyCode];
+  } else if (simpleValues.hasOwnProperty(event.keyCode)) {
+    return simpleValues[event.keyCode];
+  }
+}
+
 export const maxOperatorNumber = (previousInput) => {
   const operators = previousInput.match(/[\/\+\-\*]/g);
   return operators && operators.length === 20;

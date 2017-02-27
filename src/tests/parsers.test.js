@@ -1,10 +1,22 @@
 import {
+  handleKeyboardInput,
   maxOperatorNumber,
   maxNumberLength,
   maxDecimalDotLength,
   maxCharacterNumber,
   parseInput,
   deleteInput } from '../utils/parsers';
+
+describe('handleKeyboardInput', () => {
+  it('returns a string for a pressed key', () => {
+    expect(handleKeyboardInput({keyCode: 48, shiftKey: false})).toEqual('0');
+    expect(handleKeyboardInput({keyCode: 49, shiftKey: false})).toEqual('1');
+  });
+  it('returns a string for a pressed key if SHIFT is held', () => {
+    expect(handleKeyboardInput({keyCode: 48, shiftKey: true})).toEqual('()');
+    expect(handleKeyboardInput({keyCode: 56, shiftKey: true})).toEqual('*');
+  });
+});
 
 describe('maxOperatorNumber', () => {
   it('does not allow more than 20 operators', () => {

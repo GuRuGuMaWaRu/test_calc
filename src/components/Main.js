@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import CalcButton from './CalcButton';
-import { inputCheck, parseInput, deleteInput, beautifyInput } from '../utils/parsers';
+import { handleKeyboardInput, inputCheck, parseInput, deleteInput, beautifyInput } from '../utils/parsers';
 import { calculationParser } from '../utils/calculation';
 import '../styles/Main.css';
 
@@ -23,7 +23,7 @@ import '../styles/Main.css';
 10 - result from history is added to current input when clicked
 
 ERRORS:
-'6/5/3/76/656/4' give stack overflow
+'6/5/3/76/656/4' gives stack overflow
 
 */
 export default class Main extends Component {
@@ -31,7 +31,7 @@ export default class Main extends Component {
     super(props);
     this.state = {
       input: '',
-      buttons: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '*', '/', '.', '()', '+/-'],
+      buttons: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '*', '/', '.', '()', '+/-', '='],
       message: ''
     };
   }
@@ -67,26 +67,6 @@ export default class Main extends Component {
     }
   }
 
-  // keyboard input
-  handleKeyboardInput = (event) => {
-    const simpleValues = {
-      48: '0', 49: '1', 50: '2', 51: '3', 52: '4',
-      53: '5', 54: '6', 55: '7', 56: '8', 57: '9',
-      189: '-', 190: '.', 191: '/'
-    };
-    const complexValues = {
-      56: '*', 187: '+'
-    };
-    const pressedKey = event.keyCode;
-
-    console.log(pressedKey);
-    if (event.shiftKey && complexValues.hasOwnProperty(event.keyCode)) {
-      this.handleClick(complexValues[event.keyCode]);
-    } else if (simpleValues.hasOwnProperty(event.keyCode)) {
-      this.handleClick(simpleValues[event.keyCode]);
-    }
-  }
-
   handleDelete = (event) => {
     this.setState(prevState => ({
       input: deleteInput(prevState.input)
@@ -100,7 +80,7 @@ export default class Main extends Component {
   render() {
     const { input, buttons, message } = this.state;
 
-    addEventListener('keyup', this.handleKeyboardInput);
+    addEventListener('keyup', this.handleClick(handleKeyboardInput));
 
     return (
       <div>
